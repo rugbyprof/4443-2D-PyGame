@@ -19,3 +19,5 @@
 |  13   | [PyIntro_13.py](PyIntro_13.py)          | <a href="https://youtu.be/x46PZ5OhxYk" target="_new" > Dictionaries 2</a>              |
 |  14   | [PyIntro_14.py](FileRead/PyIntro_14.py) | <a href="https://youtu.be/8yuPUr3BFUQ" target="_new" > Reading Files</a>               |
 |  15   | [PyIntro_15.py](FileRead/PyIntro_15.py) | <a href="https://youtu.be/xL9IH3HfRmo" target="_new" > Reading Writing Json Files</a>  |
+|  16   | [PyIntro_16.py](PyIntro_16.py)          | <a href="https://youtu.be/sBexoNS1Z34" target="_new" > Functions (very basic)</a>      |
+
