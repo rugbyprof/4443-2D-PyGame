@@ -20,4 +20,4 @@
 |  14   | [PyIntro_14.py](FileRead/PyIntro_14.py) | <a href="https://youtu.be/8yuPUr3BFUQ" target="_new" > Reading Files</a>                     |
 |  15   | [PyIntro_15.py](FileRead/PyIntro_15.py) | <a href="https://youtu.be/xL9IH3HfRmo" target="_new" > Reading Writing Json Files</a>        |
 |  16   | [PyIntro_16.py](PyIntro_16.py)          | <a href="https://youtu.be/sBexoNS1Z34" target="_new" > Functions (very basic)</a>            |
-|  17   | [PyIntro_17.py](PyIntro_17.py)          | <a href="https://youtu.be/xL9IH3HfRmo" target="_new" > Modules (ehh) / __if main == blah</a> |
+|  17   | [PyIntro_17.py](PyIntro_17.py)          | <a href="https://youtu.be/uthf-GGGYA0" target="_new" > Modules (ehh) / __if main == blah</a> |
