@@ -4,7 +4,7 @@
  | [A01](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A01) | [ Assignment 1 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A01) | [ Establishing 2 Way Communication](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A01) | [07-07-2020 (Tuesday @ 12:30 p.m.)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A01) |
  | [A02](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A02) | [ Assignment 2 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A02) | [ 1 Way Communication (you to me)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A02) | [07-07-2020 (Tuesday @ 12:30 p.m.)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A02) |
  | [A03](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A03) | [ Assignment 3 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A03) | [ Dev Setup and First Program](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A03) | [07-08-2020 (Wednesday @ 12:30 p.m.)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A03) |
- | [A04](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A04) | [ Assignment 4 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A04) | [ Simple Second Program](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A04) | [07-09-2020 (Thursday @ 12:30 p.m.)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A04) |
+ | [A04](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A04) | [ Assignment 4 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A04) | [ Simple Second Program](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A04) | [07-10-2020 (Friday @ 12:30 p.m.)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A04) |
 
     
 ## File Legend
@@ -17,4 +17,4 @@
 |xx-**T**xx | This is a ***Test***. Usually when on github, it will start out as a study guide, then get accompanied with a solution after the exam. |
 
     
-<sup>Last Updated: 2020-07-07 (Tue @ 19:31)</sup>
+<sup>Last Updated: 2020-07-09 (Thu @ 13:47)</sup>

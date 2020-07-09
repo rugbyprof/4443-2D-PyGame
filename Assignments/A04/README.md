@@ -1,5 +1,5 @@
 ## Assignment 4 - Simple Second Program
-#### Due: 07-09-2020 (Thursday @ 12:30 p.m.)
+#### Due: 07-10-2020 (Friday @ 12:30 p.m.)
 
 ### Overview
 
