@@ -1,0 +1,9 @@
+{
+    "fname":"Bob",
+    "lname":"TheBuilder",
+    "rank": 3,
+    "screen_name":"bobbyboy",
+    "email":"bobbyboy@whtthehell.org",
+    "power-boost":7.34,
+    "available-boosts": ["hammer","wrench"]
+}
