@@ -48,7 +48,7 @@ Now that we have our communication client set up, we probably need to start gett
 ### Discord
 ---
 
-<img src="https://cs.msutexas.edu/~griffin/zcloud/zcloud-files/02-discord-512.webp" width="150">
+<img src="https://cs.msutexas.edu/~griffin/zcloud/zcloud-files/discord_icon.png" width="150">
 
 Discord specializes in text, image, video and audio communication between users in a chat channel. We will be using it as a place for us to communicate with voice chat and screen sharing. Discord can run in a browser, however that version does not work well at all for screen sharing. So I recommend you download the actual version and install it on your computer. Also, below I have provided a link to invite you to my server.
 
