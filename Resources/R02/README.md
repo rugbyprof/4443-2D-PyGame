@@ -23,3 +23,9 @@
 |  17   | [PyIntro_17.py](PyIntro_17.py)          | <a href="https://youtu.be/uthf-GGGYA0" target="_new" > Modules (ehh) / __if main == blah</a> |
 |  18   | [PyIntro_18.py](PyIntro_18.py)          | <a href="https://youtu.be/SckYXjqRPLA" target="_new" > Default func params and *args</a>     |
 |  19   | [PyIntro_19.py](PyIntro_19.py)          | <a href="https://youtu.be/Xt4Zlq_OSk4" target="_new" > Kwargs</a>                            |
+|  20   | [PyIntro_20.py](PyIntro_20.py)          | <a href="https://youtu.be/bORV2N-i-4g" target="_new" > Classes 1</a>                         |
+|  21   | [PyIntro_21.py](PyIntro_21.py)          | <a href="https://youtu.be/zaqJ5C9IdHU" target="_new" > Classes 2 - staticmethods</a>         |
+|  22   | [PyIntro_22.py](PyIntro_22.py)          | <a href="https://youtu.be/Dx--8Q25kzw" target="_new" > Classes 3 - overloading </a>          |
+|  23   | [PyIntro_23.py](PyIntro_23.py)          | <a href="https://youtu.be/TIP329eGkCs" target="_new" > Classes 4 - json  </a>                |
+|  24   | [PyIntro_24.py](PyIntro_24.py)          | <a href="https://youtu.be/ScH7f-7IOXE" target="_new" > Classes 5 - list of objects</a>       |
+|  25   | [PyIntro_25.py](PyIntro_25.py)          | <a href="https://youtu.be/0hk72c0v8h4" target="_new" > Classes 6 - borg pattern</a>          |

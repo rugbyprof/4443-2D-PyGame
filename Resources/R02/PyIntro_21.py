@@ -2,8 +2,32 @@ import math
 import os,sys
 import json
 
-# PyIntro Lesson 20
-# Classes Part 1
+# PyIntro Lesson 21
+# Classes Part 2
+
+class Data:
+    @staticmethod
+    def validJson(jdata):
+        try:
+            json_object = json.loads(jdata)
+            return True
+        except ValueError as e:
+            pass
+        return False
+
+    @staticmethod
+    def readJson(loc_path):
+        if os.path.isfile(loc_path):
+            f = open(loc_path,"r")
+            data = f.read()
+            if Data.validJson(data):
+                jdata = json.loads(data)
+                if jdata:
+                    return jdata
+                else:
+                    return None
+        return None
+
 
 
 class Point:

@@ -1,11 +1,11 @@
 import sys
 import os
-import pprint
+import pprint as pp
 
 # PyIntro Lesson 12
 # Dictionaries
 
-lst = [5,6,7,"hello",99.9]
+lst = [{},{},{}]
 
 d = {
     "apples":100,
@@ -14,25 +14,28 @@ d = {
     "donuts":1000,
     "eclaires":40,
     "falafel":30,
-    "goo":2
+    "grapes":2,
+    "halibut":99,
+    "ice cream":345,
+    100:1000
 }
 
-pprint.pprint(d)
+print(d.get("hooble","out of stock"))
 
-# print(d["apples"])
+x = d.setdefault("grapes",0)
 
-for i in d:
-    print(d[i])
+print(x)
+
+pp.pprint(d)
 
 
-for key,val in d.items():
-    print(f"key: {key} , val: {val}")
 
-print(d.keys())
-print(d.values())
 
-d["newitem"] = 888
 
-pprint.pprint(d)
+
+
+
+
+
 
 
