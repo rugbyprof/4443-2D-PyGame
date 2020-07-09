@@ -21,5 +21,5 @@
 |  15   | [PyIntro_15.py](FileRead/PyIntro_15.py) | <a href="https://youtu.be/xL9IH3HfRmo" target="_new" > Reading Writing Json Files</a>        |
 |  16   | [PyIntro_16.py](PyIntro_16.py)          | <a href="https://youtu.be/sBexoNS1Z34" target="_new" > Functions (very basic)</a>            |
 |  17   | [PyIntro_17.py](PyIntro_17.py)          | <a href="https://youtu.be/uthf-GGGYA0" target="_new" > Modules (ehh) / __if main == blah</a> |
-|  18   | [PyIntro_16.py](PyIntro_18.py)          | <a href="https://youtu.be/SckYXjqRPLA" target="_new" > Default func params and *args</a>     |
-|  19   | [PyIntro_17.py](PyIntro_19.py)          | <a href="https://youtu.be/Xt4Zlq_OSk4" target="_new" > Kwargs</a>                            |
+|  18   | [PyIntro_18.py](PyIntro_18.py)          | <a href="https://youtu.be/SckYXjqRPLA" target="_new" > Default func params and *args</a>     |
+|  19   | [PyIntro_19.py](PyIntro_19.py)          | <a href="https://youtu.be/Xt4Zlq_OSk4" target="_new" > Kwargs</a>                            |
