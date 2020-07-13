@@ -52,6 +52,7 @@ def main():
         red = int(random.random() * 255)
         green = int(random.random() * 255)
         blue = int(random.random() * 255)
+
         pygame.draw.circle(screen, (red, green, blue), (250, 250), 75)
 
 

@@ -29,7 +29,7 @@ def main():
 
 
     # sets the icon path
-    icon_path = os.path.join(u'images', u'icon_32.png')
+    icon_path = os.path.join('images', 'icon_32.png')
 
     # loads the icon
     icon = pygame.image.load(icon_path)
@@ -38,7 +38,7 @@ def main():
     pygame.display.set_icon(icon)
 
     # sets the window title
-    pygame.display.set_caption(u'Basic Empty Window')
+    pygame.display.set_caption('Basic Empty Window')
 
     # Set up the drawing window
     pygame.display.set_mode([500, 500])
