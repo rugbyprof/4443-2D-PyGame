@@ -25,7 +25,7 @@ Intro to 2D game concepts using PyGame
 | [A01](Assignments/A01/README.md) | Establishing 2 Way Communication | Tue Jul 7<sup>th</sup>  |
 | [A02](Assignments/A02/README.md) | 1 Way Communication              | Tue Jul 7<sup>th</sup>  |
 | [A03](Assignments/A03/README.md) | Dev Setup and First Program      | Wed Jul 8<sup>th</sup>  |
-| [A04](Assignments/A04/README.md) | Second program.                  | Thu Jul 9<sup>th</sup>  |
+| [A04](Assignments/A04/README.md) | Second program.                  | Fri Jul 10<sup>th</sup>  |
 |               P01                | Project 1                        | Mon Jul 13<sup>th</sup> |
 |               P02                | Project 2                        | Thu Jul 16<sup>th</sup> |
 |               P03                | Project 3                        | Mon Jul 20<sup>th</sup> |

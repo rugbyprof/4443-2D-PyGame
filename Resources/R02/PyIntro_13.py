@@ -49,15 +49,20 @@ randy = {
     "dict":{"subkey1":"subval1","subkey2":"subval2","subkey3":"subval3"}
 }
 
-for k,v in randy.items():
-    if type(v) is list:
-        for sv in v:
-            print(sv)
-    elif type(v) is dict:
-        for sk,sv in v.items():
-            print(sk,":",sv)
+for key,val in randy.items():
+    if type(val) is list:
+        print("List - ",key,":")
+        for i in val:
+            print(f"\t{i}")
+    elif type(val) is dict:
+        print("Dictionary - ",key,":")
+        for sub_key,sub_val in val.items():
+            print(sub_key,":",sub_val)
     else:
-        print(k,v)
+        print("Whatever - ")
+        print(key,":",val)
+
+
 
 
 
