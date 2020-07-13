@@ -31,6 +31,21 @@ config = {
 colors = load_colors('colors2.json')
 
 class Ball:
+    """Ball: Represents a pygame instance of a circle
+    Data Members:
+        screen <pygame.display> : where to print the circle
+        color <tuple>           : rgb value with alpha channel e.g. (123,111,88,100)
+        x <int>                 : One part of a 2D point
+        y <int>                 : One part of a 2D point
+        r <int>                 : Radius in pixels
+        dx <int>                : x direction
+        dy <int                 : y direction
+        speed <int>             : number of pixels to jump every update
+    Methods;
+        __init__(pygame.display,rgb tuple,int ,int ,int)
+        Draw(None)
+        Move(int,int)
+    """
     def __init__(self,screen,color,x,y,r):
         self.screen = screen
         self.color = color
@@ -45,7 +60,15 @@ class Ball:
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.radius)
 
     def Move(self):
-
+        """Move: Updates the location of the ball based on:
+                    direction
+                    current location
+                    speed
+                Also reverses direction when a "collision" occurs.
+                Collision = x,y coord of circle leaves bounds of window.
+                            we will tighten that definition up later using
+                            bounding rectangles.
+        """
         w, h = pygame.display.get_surface().get_size()
 
         self.x += (self.speed * self.dx)
@@ -56,8 +79,6 @@ class Ball:
 
         if self.y <= 0 or self.y >= h:
             self.dy *= -1
-
-
 
 
 def main():

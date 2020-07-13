@@ -49,13 +49,18 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
+        # Generate three random integers and assign between 0-255
+        # them to three vars
         red = int(random.random() * 255)
         green = int(random.random() * 255)
         blue = int(random.random() * 255)
 
+        # Draw a circle on the screen using the random variables
+        # This results in crazy color changes since the color vars
+        # are updated in the game loop.
         pygame.draw.circle(screen, (red, green, blue), (250, 250), 75)
 
-
+        # refresh display
         pygame.display.flip()
 
 

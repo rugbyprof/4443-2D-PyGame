@@ -11,6 +11,8 @@ New Code:
 
 """
 
+# Create dictionaries as to configure
+# games. More important as time goes on.
 config = {
     'title' :'006 Pygame Lesson',
     'window_size' : (500,500)
@@ -54,9 +56,11 @@ def main():
                 running = False
 
 
-
+        # Draw a circle using a color stored in our configuration
         pygame.draw.circle(screen, colors['pink'], (x, y), 50)
 
+        # Change x and y so that the "circle" will move.
+        # This is about as bare bones animation as it gets.
         x += 10
         y += 10
 

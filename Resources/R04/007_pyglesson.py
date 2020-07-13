@@ -17,19 +17,56 @@ import json
 import pprint
 
 def load_colors(infile):
+    """load_colors
+    Params:
+        infile <string> : path to an input json file to be processed.
+                          expects a format like:
+                            {
+                                "color_name" : "#hexvalue",
+                                ...
+                            }
+    Notes:
+        There are more concise ways to convert the hex values (list comprehensions for one).
+        I went for a readable approach (for me and you ...)
+    """
+    # new dictionary to store rgb values as well
     new_colors = {}
-    with open(infile,'r') as f:
-        data = f.read()
-        colors = json.loads(data)
 
+    # "with" is one way to open a file where
+    # the file is "closed" after the code block
+    # is completed. Nice and efficient and clean
+    with open(infile,'r') as f:
+        data = f.read()             # read all data in at once (1 big string)
+        colors = json.loads(data)   # use the json library to convert string to
+                                    # dictionary. Warning: no checks for valid
+                                    # json were done, or valid paths
+
+        # loop throug dictionary (duh)
         for name,hex in colors.items():
-            new_colors[name] = {}
-            new_colors[name]['hex'] = hex
+            new_colors[name] = {}           # puts a new dictionary at that color name
+                                            # e.g. new_colors = {
+                                            #   "red" = {}
+                                            # }
+
+
+            new_colors[name]['hex'] = hex   # e.g. new_colors = {
+                                            #   "red" : {
+                                            #      "hex": "#FF0000"
+                                            #   }
+                                            # }
+
+
             red = int(hex[1:3],16)
             green = int(hex[3:5],16)
             blue = int(hex[5:],16)
             rgb = (red,green,blue)
-            new_colors[name]['rgb'] = rgb
+            new_colors[name]['rgb'] = rgb   # e.g. new_colors = {
+                                            #   "red" : {
+                                            #      "hex": "#FF0000",
+                                            #      "rgb": (255,0,0)
+                                            #   }
+                                            # }
+
     return new_colors
 
 
