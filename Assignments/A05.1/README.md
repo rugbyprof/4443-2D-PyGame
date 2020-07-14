@@ -18,7 +18,7 @@ Simply create a game window that shows a player in the middle of the screen. You
   - If you use a shape, then the color of your shape.
   - Example command: `python basic.py title="Move My Player" img_path=./images/player.png width=640 height=480`
 
-- You should be able to move your player using either the keyboard or mouse.
+- You should be able to move your player using either the keyboard OR the mouse (don't have to do both).
 - This is exactly the stuff you put in your README (which keys or how to move).
 
 
