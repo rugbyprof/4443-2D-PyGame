@@ -1,6 +1,8 @@
 ## Assignment 5.1 - CovidZAR.EIEIO
 #### Due: 07-16-2020 (Thursday @ 12:30 p.m.)
 
+This is part 1 of [A05](../A05/README.md). Much more coming.
+
 ## Overview of Part 1
 
 Simply create a game window that shows a player in the middle of the screen. Your player can be a sprite or a colored shape. You should have the ability to move the player around the screen without going off the edge (you get stopped).
