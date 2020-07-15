@@ -5,6 +5,8 @@
  | [A02](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A02) | [ Assignment 2 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A02) | [ 1 Way Communication (you to me)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A02) | [07-07-2020 (Tuesday @ 12:30 p.m.)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A02) |
  | [A03](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A03) | [ Assignment 3 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A03) | [ Dev Setup and First Program](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A03) | [07-08-2020 (Wednesday @ 12:30 p.m.)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A03) |
  | [A04](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A04) | [ Assignment 4 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A04) | [ Simple Second Program](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A04) | [07-10-2020 (Friday @ 12:30 p.m.)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A04) |
+ | [A05.0](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A05.0) | [ Assignment 5 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A05.0) | [ CovidZAR.EIEIO](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A05.0) | [Multiple Dates](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A05.0) |
+ | [A05.1](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A05.1) | [ Assignment 5.1 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A05.1) | [ CovidZAR.EIEIO](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A05.1) | [07-16-2020 (Thursday @ 12:30 p.m.)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/A05.1) |
 
     
 ## File Legend
@@ -17,4 +19,4 @@
 |xx-**T**xx | This is a ***Test***. Usually when on github, it will start out as a study guide, then get accompanied with a solution after the exam. |
 
     
-<sup>Last Updated: 2020-07-09 (Thu @ 13:47)</sup>
+<sup>Last Updated: 2020-07-15 (Wed @ 13:17)</sup>
