@@ -1,14 +1,13 @@
 """
-Pygame A05-003
+Pygame A05-004
 
 Description:
 
-   Starting a player class (still)
-   Mouse click location
+   Moving a player with Mouse
 
 New Code:
 
-    Mouse Clicks
+     event.type == pygame.MOUSEBUTTONUP
 
 """
 # Import and initialize the pygame library
@@ -18,7 +17,6 @@ import json
 import pprint
 import sys
 import os
-import math
 
 # Tells OS where to open the window
 os.environ['SDL_VIDEO_WINDOW_POS'] = str(1000) + "," + str(100)
@@ -26,7 +24,6 @@ os.environ['SDL_VIDEO_WINDOW_POS'] = str(1000) + "," + str(100)
 
 from helper_module import load_colors
 from helper_module import mykwargs
-from helper_module import straightDistance
 
 
 # Import pygame.locals for easier access to key coordinates
@@ -52,7 +49,6 @@ config = {
 colors = load_colors('colors.json')
 
 
-
 class Player:
     def __init__(self,screen,color,x,y,r):
         self.screen = screen
@@ -64,7 +60,6 @@ class Player:
         self.dy = random.choice([-1,1])
         self.speed = 15
         self.last_direction = None
-        self.goal_position = None
 
     def Draw(self):
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.radius)
@@ -98,28 +93,18 @@ class Player:
             return K_RIGHT
         return None
 
-
     def Move(self,input):
         if len(input) > 2:
             self.MoveWithKeys(input)
-
         elif len(input) == 2:
             self.MoveWithMouse(input)
 
-    def MouseClicked(self,pos):
-        x = pos[0]
-        y = pos[1]
+    def MoveWithMouse(self,input):
+        x = input[0]
+        y = input[1]
 
-        self.goal_position = (x,y)
-
-        dx = x - self - self.x
-        dy = y - self.y
-        angle = math.atan2(dy, dx)
-
-        while straightDistance(self.x,self.y,mouse_x,mouse_y) > 5:
-            self.x += int(self.speed * math.cos(angle))
-            self.y += int(self.speed * math.sin(angle))
-
+        self.x = x
+        self.y = y
 
 
     def MoveWithKeys(self,keys):
@@ -167,15 +152,14 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-
         player_input = pygame.key.get_pressed()
 
         # handle MOUSEBUTTONUP
         if event.type == pygame.MOUSEBUTTONUP:
             player_input = pygame.mouse.get_pos()
 
-
         p1.Move(player_input)
+
         p1.Draw()
 
         pygame.display.flip()

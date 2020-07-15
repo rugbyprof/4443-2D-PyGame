@@ -37,6 +37,10 @@ Simply create a game window that shows a player in the middle of the screen. You
   - Run your game with a screen size of 640x480
   - Please don't screen shot your whole desktop with our output as a tiny little window on it.
   - Include 3 screen shots with your player in various positions on the screen
+  - Link to the three screen shots in your readme. Here is how to link to a file.
+    - Upload the image to your repo folder. Lets say its called `screen_shot1.png`.
+    - Link to it the markdwown way: `![alt text](screen_shot1.png)`. This works, but will not let you size the image.
+    - Link to it the html way: `<img src="screen_shot1.png" width="300">`. This also works AND will let you pick the size.
 - Add a `README.md` file to your `A05.1` folder with instructions on how to run your program guided by [R03](../../Resources/R03/README.md)
 
 

@@ -3,9 +3,7 @@ Pygame A05-003
 
 Description:
 
-   Starting a player class (still)
-   Keyboard movement
-
+   Moving a player with Keyboard
 
 New Code:
 
