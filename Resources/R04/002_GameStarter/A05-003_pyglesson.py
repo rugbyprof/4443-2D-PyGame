@@ -3,12 +3,16 @@ Pygame A05-003
 
 Description:
 
-   Starting a player class
-   Keyboard
+   Starting a player class (still)
+   Keyboard movement
+
 
 New Code:
 
-    We'll see
+    pressed_keys = pygame.key.get_pressed()
+    event.type
+    event.key
+    constants from pygame.locals to get predefined words associated with a direction (watch video)
 
 """
 # Import and initialize the pygame library

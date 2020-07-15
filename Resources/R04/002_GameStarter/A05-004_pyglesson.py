@@ -3,12 +3,12 @@ Pygame A05-003
 
 Description:
 
-   Starting a player class
-   Keyboard
+   Starting a player class (still)
+   Mouse click location
 
 New Code:
 
-    We'll see
+    Mouse Clicks
 
 """
 # Import and initialize the pygame library
@@ -18,6 +18,7 @@ import json
 import pprint
 import sys
 import os
+import math
 
 # Tells OS where to open the window
 os.environ['SDL_VIDEO_WINDOW_POS'] = str(1000) + "," + str(100)
@@ -25,6 +26,7 @@ os.environ['SDL_VIDEO_WINDOW_POS'] = str(1000) + "," + str(100)
 
 from helper_module import load_colors
 from helper_module import mykwargs
+from helper_module import straightDistance
 
 
 # Import pygame.locals for easier access to key coordinates
@@ -50,7 +52,8 @@ config = {
 colors = load_colors('colors.json')
 
 
-class Ball:
+
+class Player:
     def __init__(self,screen,color,x,y,r):
         self.screen = screen
         self.color = color
@@ -61,6 +64,7 @@ class Ball:
         self.dy = random.choice([-1,1])
         self.speed = 15
         self.last_direction = None
+        self.goal_position = None
 
     def Draw(self):
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.radius)
@@ -94,7 +98,31 @@ class Ball:
             return K_RIGHT
         return None
 
-    def Move(self,keys):
+
+    def Move(self,input):
+        if len(input) > 2:
+            self.MoveWithKeys(input)
+
+        elif len(input) == 2:
+            self.MoveWithMouse(input)
+
+    def MouseClicked(self,pos):
+        x = pos[0]
+        y = pos[1]
+
+        self.goal_position = (x,y)
+
+        dx = x - self - self.x
+        dy = y - self.y
+        angle = math.atan2(dy, dx)
+
+        while straightDistance(self.x,self.y,mouse_x,mouse_y) > 5:
+            self.x += int(self.speed * math.cos(angle))
+            self.y += int(self.speed * math.sin(angle))
+
+
+
+    def MoveWithKeys(self,keys):
         direction = self.GetDirection(keys)
 
         if self.OnWorld() or direction != self.last_direction:
@@ -125,7 +153,7 @@ def main():
     screen = pygame.display.set_mode((width,height))
 
     # construct the ball
-    b1 = Ball(screen,colors['rebeccapurple']['rgb'],width//2,height//2,30)
+    p1 = Player(screen,colors['rebeccapurple']['rgb'],width//2,height//2,30)
 
     # Run until the user asks to quit
     # game loop
@@ -139,12 +167,16 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        # in a minute
-        pressed_keys = pygame.key.get_pressed()
-        print(pressed_keys)
-        b1.Move(pressed_keys)
 
-        b1.Draw()
+        player_input = pygame.key.get_pressed()
+
+        # handle MOUSEBUTTONUP
+        if event.type == pygame.MOUSEBUTTONUP:
+            player_input = pygame.mouse.get_pos()
+
+
+        p1.Move(player_input)
+        p1.Draw()
 
         pygame.display.flip()
 

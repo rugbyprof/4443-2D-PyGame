@@ -1,6 +1,14 @@
 import sys
 import json
 
+def straightDistance(x1,y1,x2,y2):
+    distance = ((x1-x2)**2 + (y1-y2)**2)**0.5
+    return distance
+
+def taxicabDistance(xA,yA,xB,yB):
+    distance = abs(xA-xB) + abs(yA-yB)
+    return distance
+
 def mykwargs(argv):
     '''
     Processes argv list into plain args and kwargs.

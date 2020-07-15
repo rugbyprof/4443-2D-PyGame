@@ -108,13 +108,11 @@ def main():
 
             if event.type == 2:
                 print(event.key)
-                b1.Move(event.key)
+
 
         pressed_keys = pygame.key.get_pressed()
 
         b1.Draw()
-
-
 
         pygame.display.flip()
 
