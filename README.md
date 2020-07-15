@@ -27,7 +27,7 @@ Intro to 2D game concepts using PyGame
 | [A03](Assignments/A03/README.md) | Dev Setup and First Program      | Wed Jul 8<sup>th</sup>      |
 | [A04](Assignments/A04/README.md) | Second program.                  | Fri Jul 10<sup>th</sup>     |
 |             ~~P01~~              | ~~Project 1~~                    | ~~Mon Jul 13~~<sup>th</sup> |
-|               P02                | Project 2                        | Thu Jul 16<sup>th</sup>     |
+|              A05.1               | Project 1.1                        | Thu Jul 16<sup>th</sup>     |
 |               P03                | Project 3                        | Mon Jul 20<sup>th</sup>     |
 |               P04                | Project 4                        | Thu Jul 23<sup>rd</sup>     |
 |               P05                | Project 5                        | Mon Jul 27<sup>th</sup>     |
