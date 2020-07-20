@@ -1,4 +1,4 @@
-## Assignment 5 - CovidZAR.EIEIO
+## Project 1 - CovidZAR.EIEIO
 #### Due: Multiple Dates
 
 I'm not sure what will be due Thursday .... so back off!! I'm laying out the rules of CovidZAR.eieio

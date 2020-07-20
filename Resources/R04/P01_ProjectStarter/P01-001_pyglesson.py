@@ -1,10 +1,9 @@
 """
-Pygame A05-002
+Pygame P01-001
 
 Description:
 
    Starting a player class
-   Keyboard
 
 New Code:
 
@@ -17,38 +16,17 @@ import random
 import json
 import pprint
 import sys
-import os
-
-# Tells OS where to open the window
-os.environ['SDL_VIDEO_WINDOW_POS'] = str(1000) + "," + str(100)
-
 
 from helper_module import load_colors
 from helper_module import mykwargs
 
 
-# Import pygame.locals for easier access to key coordinates
-# Updated to conform to flake8 and black standards
-from pygame.locals import (
-    K_UP,
-    K_DOWN,
-    K_LEFT,
-    K_RIGHT,
-    K_ESCAPE,
-    KEYDOWN,
-    QUIT,
-)
-
 config = {
     'title' :'006 Pygame Lesson',
-    'window_size' : {
-        'width' : 600,
-        'height' : 480
-    }
+    'window_size' : (500,500)
 }
 
 colors = load_colors('colors.json')
-
 
 class Ball:
     def __init__(self,screen,color,x,y,r):
@@ -65,16 +43,20 @@ class Ball:
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.radius)
 
     def Move(self):
-
+        """This move method moves the "player" in the x and y direction changing direction
+           when wall contact is detected (collision)
+        """
         w, h = pygame.display.get_surface().get_size()
 
         self.x += (self.speed * self.dx)
         self.y += (self.speed * self.dy)
 
-        if self.x <= 0 or self.x >= w:
+        half = self.radius
+
+        if self.x  <= half or self.x + half >= w:
             self.dx *= -1
 
-        if self.y <= 0 or self.y >= h:
+        if self.y  <= half or self.y + half >= h:
             self.dy *= -1
 
 
@@ -84,15 +66,15 @@ def main():
     # sets the window title
     pygame.display.set_caption(config['title'])
 
-    # set circle location
-    width = config['window_size']['width']
-    height = config['window_size']['height']
-
     # Set up the drawing window
-    screen = pygame.display.set_mode((width,height))
+    screen = pygame.display.set_mode(config['window_size'])
+
+    # set circle location
+    x = 20
+    y = 250
 
     # construct the ball
-    b1 = Ball(screen,colors['rebeccapurple']['rgb'],width//2,height//2,30)
+    b1 = Ball(screen,colors['rebeccapurple']['rgb'],x,y,30)
 
     # Run until the user asks to quit
     # game loop
@@ -106,13 +88,9 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-            if event.type == 2:
-                print(event.key)
-
-
-        pressed_keys = pygame.key.get_pressed()
-
         b1.Draw()
+        b1.Move()
+
 
         pygame.display.flip()
 

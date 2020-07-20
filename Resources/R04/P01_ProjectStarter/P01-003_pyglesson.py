@@ -1,9 +1,10 @@
 """
-Pygame A05-003
+Pygame P01-003
 
 Description:
 
-   Moving a player with Keyboard
+   Moving a player with Keyboard using the "events" triggered by
+   key presses.
 
 New Code:
 
@@ -68,7 +69,8 @@ class Ball:
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.radius)
 
     def BouncyMove(self):
-
+        """ Old move method not used
+        """
         w, h = pygame.display.get_surface().get_size()
 
         self.x += (self.speed * self.dx)
@@ -81,11 +83,15 @@ class Ball:
             self.dy *= -1
 
     def OnWorld(self):
+        """ Is the players coords within the world bounds
+        """
         w, h = pygame.display.get_surface().get_size()
 
         return self.x > 0 and self.x < w and self.y > 0 and self.y < h
 
     def GetDirection(self,keys):
+        """Use pygame builtin values to test for which direction keys are pressed.
+        """
         if keys[K_UP]:
             return K_UP
         elif keys[K_DOWN]:
@@ -97,6 +103,8 @@ class Ball:
         return None
 
     def Move(self,keys):
+        """Moves player using arrow keys and stops at edge of world
+        """
         direction = self.GetDirection(keys)
 
         if self.OnWorld() or direction != self.last_direction:
@@ -143,7 +151,7 @@ def main():
 
         # in a minute
         pressed_keys = pygame.key.get_pressed()
-        print(pressed_keys)
+
         b1.Move(pressed_keys)
 
         b1.Draw()

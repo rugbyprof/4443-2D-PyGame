@@ -1,7 +1,7 @@
-## Assignment 5.1 - CovidZAR.EIEIO
+## Project 1.1 - CovidZAR.EIEIO
 #### Due: 07-16-2020 (Thursday @ 12:30 p.m.)
 
-This is part 1 of [A05](../A05/README.md). Much more coming.
+This is part 1 of [P01](../P01/README.md). Much more coming.
 
 ## Overview of Part 1
 
@@ -31,7 +31,7 @@ Simply create a game window that shows a player in the middle of the screen. You
 
 ## Deliverables
 
-- Create a folder called `A05.1` in your `Assignments` folder.
+- Create a folder called `P01.1` in your `Assignments` folder.
 - Add a file to your folder called `game.py` with the above code.
 - Screen Shots
   - Run your game with a screen size of 640x480
@@ -41,7 +41,7 @@ Simply create a game window that shows a player in the middle of the screen. You
     - Upload the image to your repo folder. Lets say its called `screen_shot1.png`.
     - Link to it the markdwown way: `![alt text](screen_shot1.png)`. This works, but will not let you size the image.
     - Link to it the html way: `<img src="screen_shot1.png" width="300">`. This also works AND will let you pick the size.
-- Add a `README.md` file to your `A05.1` folder with instructions on how to run your program guided by [R03](../../Resources/R03/README.md)
+- Add a `README.md` file to your `P01.1` folder with instructions on how to run your program guided by [R03](../../Resources/R03/README.md)
 
 
 ## Pseudo Rubric

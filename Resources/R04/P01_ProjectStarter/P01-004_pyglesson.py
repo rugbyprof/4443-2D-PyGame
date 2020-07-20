@@ -1,13 +1,11 @@
 """
-Pygame A05-005
+Pygame P01-004
 
 Description:
 
-   Moving a player with Mouse
+   Moving a player with Mouse and "teleporting" to the spot.
+   Not the best implementation of how to move a player.
 
-New Code:
-
-     event.type == pygame.MOUSEBUTTONUP
 
 """
 # Import and initialize the pygame library
@@ -17,7 +15,6 @@ import json
 import pprint
 import sys
 import os
-import math
 
 # Tells OS where to open the window
 os.environ['SDL_VIDEO_WINDOW_POS'] = str(1000) + "," + str(100)
@@ -25,7 +22,6 @@ os.environ['SDL_VIDEO_WINDOW_POS'] = str(1000) + "," + str(100)
 
 from helper_module import load_colors
 from helper_module import mykwargs
-from helper_module import straightDistance
 
 
 # Import pygame.locals for easier access to key coordinates
@@ -62,8 +58,6 @@ class Player:
         self.dy = random.choice([-1,1])
         self.speed = 15
         self.last_direction = None
-        self.target_location = None
-        self.moving = False
 
     def Draw(self):
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.radius)
@@ -97,47 +91,21 @@ class Player:
             return K_RIGHT
         return None
 
-    def Move(self):
-        # if len(input) > 2:
-        #     self.MoveWithKeys(input)
-        # if len(input) == 2:
-        #     self.target_location = input
-        #     self.MoveWithMouse()
-        # else:
-        #     self.MoveWithMouse()
+    def Move(self,input):
+        if len(input) > 2:
+            self.MoveWithKeys(input)
+        elif len(input) == 2:
+            self.MoveWithMouse(input)
 
-        if self.moving:
-            self.MoveWithMouse()
-
-    def MouseClicked(self,loc):
-        self.target_location = loc
-        self.moving = True
-        self.MoveWithMouse()
-        print(f"clicked: {loc}")
-
-    def MoveWithMouse(self):
-        if not self.moving:
-            return
-        x = self.target_location[0]
-        y = self.target_location[1]
-
-        dx = x - self.x
-        dy = y - self.y
-        angle = math.atan2(dy, dx)
-
-        if straightDistance(self.x,self.y,x,y) > 10:
-            self.x += int(self.speed * math.cos(angle))
-            self.y += int(self.speed * math.sin(angle))
-
-    def TelePort(self,input):
+    def MoveWithMouse(self,input):
         x = input[0]
         y = input[1]
 
         self.x = x
         self.y = y
 
+
     def MoveWithKeys(self,keys):
-        self.moving = False
         direction = self.GetDirection(keys)
 
         if self.OnWorld() or direction != self.last_direction:
@@ -182,15 +150,14 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        if event.type == pygame.MOUSEBUTTONUP:
-            p1.MouseClicked(pygame.mouse.get_pos())
-
-        if pygame.key.get_pressed():
-            p1.MoveWithKeys(pygame.key.get_pressed())
+        player_input = pygame.key.get_pressed()
 
         # handle MOUSEBUTTONUP
+        if event.type == pygame.MOUSEBUTTONUP:
+            player_input = pygame.mouse.get_pos()
 
-        p1.Move()
+        p1.Move(player_input)
+
         p1.Draw()
 
         pygame.display.flip()

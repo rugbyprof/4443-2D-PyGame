@@ -26,13 +26,15 @@ Intro to 2D game concepts using PyGame
 |   [A02](Assignments/A02/README.md)   | 1 Way Communication              | Tue Jul 7<sup>th</sup>      |
 |   [A03](Assignments/A03/README.md)   | Dev Setup and First Program      | Wed Jul 8<sup>th</sup>      |
 |   [A04](Assignments/A04/README.md)   | Second program.                  | Fri Jul 10<sup>th</sup>     |
-|               ~~P01~~                | ~~Project 1~~                    | ~~Mon Jul 13~~<sup>th</sup> |
-| [A05.1](Assignments/A05.1/README.md) | Project 1.1                      | Thu Jul 16<sup>th</sup>     |
-|                 P03                  | Project 3                        | Mon Jul 20<sup>th</sup>     |
-|                 P04                  | Project 4                        | Thu Jul 23<sup>rd</sup>     |
-|                 P05                  | Project 5                        | Mon Jul 27<sup>th</sup>     |
-|                 P06                  | Project 6                        | Mon Jul 30<sup>th</sup>     |
-|                 P07                  | Project 7                        | Wed Aug 5<sup>th</sup>      |
+|               ~~None~~               | ~~None~~                         | ~~Mon Jul 13~~<sup>th</sup> |
+| [P01.1](Assignments/A05.1/README.md) | Project 1.1                      | Thu Jul 16<sup>th</sup>     |
+|               ~~None~~               | ~~None~~                         | ~~Mon Jul 20~~<sup>th</sup> |
+|                P01.2                 | Project 1.2                      | Thu Jul 24<sup>th</sup>     |
+|                P01.3                 | Project 1.3                      | Mon Jul 24<sup>th</sup>     |
+|                P01.4                 | Project 1.4                      | Mon Jul 28<sup>th</sup>     |
+|                P01.5                 | Project 1.5                      | Mon Jul 28<sup>th</sup>     |
+|                 P02                  | Project 2                        | TBD                         |
+|                 P03                  | Project 3                        | TBD                         |
 |                Github                | Your Github Portfolio            | Thu Aug 6<sup>th</sup>      |
 |                Final                 | Final Exam                       | Thu Aug 6<sup>th</sup>      |
 
