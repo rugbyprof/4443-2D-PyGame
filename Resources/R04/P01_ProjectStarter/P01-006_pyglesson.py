@@ -23,6 +23,7 @@ import math
 from helper_module import rgb_colors
 from helper_module import mykwargs
 from helper_module import straightDistance
+from helper_module import Logg
 
 config = {
     'title' :'006 Pygame Lesson',
@@ -50,13 +51,8 @@ from pygame.locals import (
     QUIT,
 )
 
-class Logg:
-    def __init__(self):
-        self.logfile = open("logger.txt","w")
 
-    def log(self,stuff):
-        self.logfile.write(stuff+"\n")
-
+# logger instance but not used :)
 logg = Logg()
 
 class TextWriter:

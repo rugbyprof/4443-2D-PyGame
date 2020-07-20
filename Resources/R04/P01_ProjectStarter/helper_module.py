@@ -118,3 +118,14 @@ def getCardinalDirection(origin,target):
     octant = round(8 * angle / (2*math.pi) + 8) % 8
 
     return cardinal_directions[octant]
+
+
+class Logg:
+    """
+    Simple little logger clas to help with debugging
+    """
+    def __init__(self):
+        self.logfile = open("logger.txt","w")
+
+    def log(self,stuff):
+        self.logfile.write(stuff+"\n")
