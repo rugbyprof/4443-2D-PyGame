@@ -33,7 +33,7 @@
 
 <P align="center"><img src="./media/tile_1000x1000_40_light.png" width="300"></p>
 
-- **[P01-scrolling_background_side.py](P01-scrolling_background_side.py**
+- **[P01-scrolling_background_side.py](P01-scrolling_background_side.py)**
   - Uses the following background image and a edited background trick to do a side scroller.
 
 <P align="center"><img src="./media/desert_bg_1200.png" width="600"></p>
