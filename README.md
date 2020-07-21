@@ -29,10 +29,10 @@ Intro to 2D game concepts using PyGame
 |               ~~None~~               | ~~None~~                         | ~~Mon Jul 13~~<sup>th</sup> |
 | [P01.1](Assignments/A05.1/README.md) | Project 1.1                      | Thu Jul 16<sup>th</sup>     |
 |               ~~None~~               | ~~None~~                         | ~~Mon Jul 20~~<sup>th</sup> |
-|                P01.2                 | Project 1.2                      | Thu Jul 24<sup>th</sup>     |
-|                P01.3                 | Project 1.3                      | Mon Jul 24<sup>th</sup>     |
-|                P01.4                 | Project 1.4                      | Mon Jul 28<sup>th</sup>     |
-|                P01.5                 | Project 1.5                      | Mon Jul 28<sup>th</sup>     |
+| [P01.2](Assignments/P01.1/README.md) | Project 1.2                      | Fri Jul 24<sup>th</sup>     |
+|                P01.3                 | Project 1.3                      | Sun Jul 26<sup>th</sup>     |
+|                P01.4                 | Project 1.4                      | Tue Jul 28<sup>th</sup>     |
+|                P01.5                 | Project 1.5                      | Thu Jul 30<sup>th</sup>     |
 |                 P02                  | Project 2                        | TBD                         |
 |                 P03                  | Project 3                        | TBD                         |
 |                Github                | Your Github Portfolio            | Thu Aug 6<sup>th</sup>      |
