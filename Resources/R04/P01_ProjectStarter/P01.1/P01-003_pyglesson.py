@@ -1,11 +1,17 @@
 """
-Pygame P01-004
+Pygame P01-003
 
 Description:
 
-   Moving a player with Mouse and "teleporting" to the spot.
-   Not the best implementation of how to move a player.
+   Moving a player with Keyboard using the "events" triggered by
+   key presses.
 
+New Code:
+
+    pressed_keys = pygame.key.get_pressed()
+    event.type
+    event.key
+    constants from pygame.locals to get predefined words associated with a direction (watch video)
 
 """
 # Import and initialize the pygame library
@@ -37,7 +43,7 @@ from pygame.locals import (
 )
 
 config = {
-    'title' :'006 Pygame Lesson',
+    'title' :'003 Pygame Lesson',
     'window_size' : {
         'width' : 600,
         'height' : 480
@@ -47,7 +53,7 @@ config = {
 colors = load_colors('colors.json')
 
 
-class Player:
+class Ball:
     def __init__(self,screen,color,x,y,r):
         self.screen = screen
         self.color = color
@@ -63,7 +69,8 @@ class Player:
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.radius)
 
     def BouncyMove(self):
-
+        """ Old move method not used
+        """
         w, h = pygame.display.get_surface().get_size()
 
         self.x += (self.speed * self.dx)
@@ -76,11 +83,15 @@ class Player:
             self.dy *= -1
 
     def OnWorld(self):
+        """ Is the players coords within the world bounds
+        """
         w, h = pygame.display.get_surface().get_size()
 
         return self.x > 0 and self.x < w and self.y > 0 and self.y < h
 
     def GetDirection(self,keys):
+        """Use pygame builtin values to test for which direction keys are pressed.
+        """
         if keys[K_UP]:
             return K_UP
         elif keys[K_DOWN]:
@@ -91,21 +102,9 @@ class Player:
             return K_RIGHT
         return None
 
-    def Move(self,input):
-        if len(input) > 2:
-            self.MoveWithKeys(input)
-        elif len(input) == 2:
-            self.MoveWithMouse(input)
-
-    def MoveWithMouse(self,input):
-        x = input[0]
-        y = input[1]
-
-        self.x = x
-        self.y = y
-
-
-    def MoveWithKeys(self,keys):
+    def Move(self,keys):
+        """Moves player using arrow keys and stops at edge of world
+        """
         direction = self.GetDirection(keys)
 
         if self.OnWorld() or direction != self.last_direction:
@@ -136,7 +135,7 @@ def main():
     screen = pygame.display.set_mode((width,height))
 
     # construct the ball
-    p1 = Player(screen,colors['rebeccapurple']['rgb'],width//2,height//2,30)
+    b1 = Ball(screen,colors['rebeccapurple']['rgb'],width//2,height//2,30)
 
     # Run until the user asks to quit
     # game loop
@@ -150,15 +149,12 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        player_input = pygame.key.get_pressed()
+        # in a minute
+        pressed_keys = pygame.key.get_pressed()
 
-        # handle MOUSEBUTTONUP
-        if event.type == pygame.MOUSEBUTTONUP:
-            player_input = pygame.mouse.get_pos()
+        b1.Move(pressed_keys)
 
-        p1.Move(player_input)
-
-        p1.Draw()
+        b1.Draw()
 
         pygame.display.flip()
 

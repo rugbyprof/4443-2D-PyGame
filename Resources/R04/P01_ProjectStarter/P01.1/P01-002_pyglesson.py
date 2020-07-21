@@ -40,7 +40,7 @@ from pygame.locals import (
 )
 
 config = {
-    'title' :'006 Pygame Lesson',
+    'title' :'002 Pygame Lesson',
     'window_size' : {
         'width' : 600,
         'height' : 480

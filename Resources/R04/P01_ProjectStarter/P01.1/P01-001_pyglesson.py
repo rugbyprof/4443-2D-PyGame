@@ -22,7 +22,7 @@ from helper_module import mykwargs
 
 
 config = {
-    'title' :'006 Pygame Lesson',
+    'title' :'001 Pygame Lesson',
     'window_size' : (500,500)
 }
 
