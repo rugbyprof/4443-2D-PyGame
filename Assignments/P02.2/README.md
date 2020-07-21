@@ -3,7 +3,7 @@
 
 ## Overview of Part 2
 
-This part of the assignment is to use your own base code, or the base code I provide here: [P01-009_scrolling_background_any.py](../../Resources/R04/P01_ProjectStarter/P01-009_scrolling_background_any.py) and implement a camera view. What is a camera view?
+This part of the assignment is to use your own base code, or the base code I provide here: [moving.py](moving.py) and implement a camera view. What is a camera view?
 
 
 Typically the camera makes you feel like you are in the center of the screen (the shaded portion around the middle is not seen by the player).
