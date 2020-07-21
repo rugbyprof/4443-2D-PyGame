@@ -1,5 +1,5 @@
 ## Project 1.2 - CovidZAR Camera View
-#### Due: 07-16-2020 (Thursday @ 12:30 p.m.)
+#### Due: 07-24-2020 (Friday @ 12:30 p.m.)
 
 ## Overview of Part 2
 
