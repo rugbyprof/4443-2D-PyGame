@@ -53,5 +53,6 @@ If you swap xy => yx this is what you get:
 
 <img src="https://cs.msutexas.edu/~griffin/zcloud/zcloud-files/pacman_spritesheet_yxdir.png" width="60" >
 
-If you don't provide an out path it will assume same directory as in path and call the new file sprite_sheet_`timestamp`.png  where timestamp is an integer value.
+If you don't provide an out path it will assume same directory as in path and call the new file sprite_sheet_`timestamp`.png  where timestamp is an integer value representing the time it was made.
+
 
