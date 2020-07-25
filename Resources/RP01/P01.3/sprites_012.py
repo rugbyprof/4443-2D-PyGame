@@ -466,6 +466,9 @@ def main():
             gets_hit = pygame.sprite.collide_rect(item, player)
             if gets_hit:
                 print(item.points)
+                if item.key == 'grenade':
+                    player.kill()
+                item.kill()
 
         all_sprites.draw(screen)
 

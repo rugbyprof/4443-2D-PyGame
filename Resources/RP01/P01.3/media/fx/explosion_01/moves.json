@@ -1,5 +1,6 @@
 {
     "base_name":"explosion1_",
     "ext":".png",
-    "frames":"*"
+    "frames":"*",
+    "fps":0
 }

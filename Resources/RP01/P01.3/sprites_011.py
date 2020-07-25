@@ -418,7 +418,7 @@ def main():
     player_group.add(player)
     
 
-    for i in range(50):
+    for i in range(25):
         m = Mob(path=config['sprite_sheets']['random']['path'])
         mob_group.add(m)
         all_sprites.add(m)
@@ -462,7 +462,7 @@ def main():
         all_sprites.update()
 
         #hits = pygame.sprite.groupcollide(player_group, mob_group, True, True)
-        # hits = pygame.sprite.groupcollide(player_group, mob_group, False, True)
+        hits = pygame.sprite.groupcollide(player_group, mob_group, False, True)
         # print(hits)
 
         all_sprites.draw(screen)

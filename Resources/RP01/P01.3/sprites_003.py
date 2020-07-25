@@ -5,7 +5,6 @@ Description:
     Loading a sprite animation and displaying it (still)
     Create multiple instances.
     Use explosion class to perform multiple explosions.
-    Mess with FPS for animations.
 """
 # Import and initialize the pygame library
 import pygame

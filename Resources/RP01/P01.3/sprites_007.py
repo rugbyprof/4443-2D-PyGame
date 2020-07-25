@@ -356,11 +356,11 @@ def main():
                 
             if event.type == pygame.MOUSEBUTTONUP:
                 print(pygame.mouse.get_pos())
-                # if pygame.time.get_ticks() % 2 == 0:
-                #     e = Explosion(fx_sprites=config['sprite_sheets']['explosion_01']['path'],loc=pygame.mouse.get_pos())
-                # else:
-                #     e = Explosion(fx_sprites=config['sprite_sheets']['explosion_02']['path'],loc=pygame.mouse.get_pos())
-                # all_sprites.add(e)
+                if pygame.time.get_ticks() % 2 == 0:
+                    e = Explosion(fx_sprites=config['sprite_sheets']['explosion_01']['path'],loc=pygame.mouse.get_pos())
+                else:
+                    e = Explosion(fx_sprites=config['sprite_sheets']['explosion_02']['path'],loc=pygame.mouse.get_pos())
+                all_sprites.add(e)
 
         all_sprites.update()
         all_sprites.draw(screen)

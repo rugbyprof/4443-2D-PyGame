@@ -2,9 +2,7 @@
 Sprite Helper
 
 Description:
-    Loading a sprite player and move with animation but theres a problem!!
-    What about standing still?
-
+    More handling collisions and points.
 """
 # Import and initialize the pygame library
 import pygame
@@ -45,13 +43,39 @@ config = {
     'sprite_sheets':{
         'explosion_01':{'path':'./media/fx/explosion_01'},
         'explosion_02':{'path':'./media/fx/green_blob_explosion_01'},
-        'green_monster':{'path':'./media/characters/green_monster'}
+        'green_monster':{'path':'./media/characters/green_monster'},
+        'pac_man_orange':{'path':'./media/characters/pacman_ghost_orange'},
+        'pac_man_red':{'path':'./media/characters/pacman_ghost_red'},
+        'pac_man_pink':{'path':'./media/characters/pacman_ghost_pink'},
+        'pac_man_blue':{'path':'./media/characters/pacman_ghost_blue'},
+        'random':{'path':'./media/collections/pacman_items'},
     },
     'background':'./media/backgrounds/tile_1000x1000_40_light.png',
     'fps':60
 }
 
 colors = rgb_colors('colors.json')
+
+def LoadJson(path,filetype):
+    """ load a json file for whatever you need!
+    """
+    if not os.path.isdir(path):
+        print(f"Error: {path} not a valid folder!")
+        sys.exit()
+
+    if not os.path.isfile(os.path.join(path,filetype)):
+        print(f"Error: {filetype} is required to be in folder!")
+        sys.exit()
+
+    # open the json file thats expected to be in the folder
+    # and read it in as a string
+    f = open(os.path.join(path,filetype),"r")
+
+    # make raw string into a python dictionary 
+    data = json.loads(f.read())
+
+    return data
+
 
 def  LoadSpriteImages(path):
     """ Load sprite images into either a dictionary of moves or a list of images depending
@@ -61,20 +85,8 @@ def  LoadSpriteImages(path):
         This method reads a json file looking for the following formats (right now):
 
     """
-    if not os.path.isdir(path):
-        print(f"Error: {path} not a valid sprite folder!")
-        sys.exit()
-
-    if not os.path.isfile(os.path.join(path,"moves.json")):
-        print(f"Error: 'moves.json' is required to be in folder!")
-        sys.exit()
-
-    # open the json file thats expected to be in the folder
-    # and read it in as a string
-    f = open(os.path.join(path,"moves.json"),"r")
-
     # make raw string into a python dictionary 
-    sprite_info = json.loads(f.read())
+    sprite_info = LoadJson(path,"moves.json")
 
     # base name is used to build filename
     base_name = sprite_info['base_name']
@@ -92,6 +104,7 @@ def  LoadSpriteImages(path):
                 moves[move].append(os.path.join(path,base_name+num+ext))
         
         return moves
+
     # If frames in the dictionary, then its an effect with a list of images
     # for that effect. We need to order them before return since glob
     # doesn't get directory items in order. 
@@ -205,6 +218,8 @@ class Player(pygame.sprite.Sprite):
 
         print(self.animations)
 
+        self.gameover = False
+
         self.frame = 0
         self.action = 'down'
         self.last_update = pygame.time.get_ticks()
@@ -216,8 +231,8 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = self.center 
 
-        self.dx = random.choice([-1,0,1])
-        self.dy = random.choice([-1,0,1])
+        self.dx = 1
+        self.dy = 1
         self.speed = 3
     
 
@@ -252,48 +267,127 @@ class Player(pygame.sprite.Sprite):
             But do we want to move when 0,0 ??
         """
         action = ''
-        print(self.dx,self.dy)
+        
         if self.dy == -1:
             action += 'up'
-            print(action)
+
         if self.dy == 1:
             action += 'down'
-            print(action)
+
         if self.dx == -1:
             action += 'left'
-            print(action)
+
         if self.dx == 1:
             action += 'right'
-            print(action)
-
-        print(action)
 
         return action
 
+    def endlife(self):
+        """ Sets class variables to end everything
+        """
+        self.frame_rate = 60
+        self.gameover = True
+        self.action = 'die'
+        self.frame = 0
 
     def update(self):
         """ Updating players state
         """
-        self.move() # update dx and dy
+        if not self.gameover:
+            self.move() # update dx and dy
 
-        # use dx and dy to pick action (direction)
-        self.action  = self.choose_animation()
+            old_action = self.action
 
-        self.image = self.sprites[self.action][self.frame]
+            # use dx and dy to pick action (direction)
+            self.action  = self.choose_animation()
+
+            if self.action == '':
+                self.action = old_action
+                center = self.rect.center
+                self.image = self.sprites[old_action][0]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
+                return
+
+            self.image = self.sprites[self.action][self.frame]
+
 
         now = pygame.time.get_ticks()                   # get current game clock
         if now - self.last_update > self.frame_rate:    # 
             self.last_update = now
             self.frame += 1
-            if self.frame == len(self.frames):
-                self.kill()
+            if self.frame == len(self.sprites[self.action]):
                 self.frame = 0
+                if self.gameover:
+                    self.kill()
             else:
                 center = self.rect.center
-                self.image = self.frames[self.frame]
+                self.image = self.sprites[self.action][self.frame]
                 self.rect = self.image.get_rect()
                 self.rect.center = center
 
+
+class Mob(pygame.sprite.Sprite):
+    def __init__(self, **kwargs):
+
+        # Initiate this sprite
+        pygame.sprite.Sprite.__init__(self)
+
+        self.game_width = config['window_size']['width']
+        self.game_height = config['window_size']['height']
+   
+
+        # get location of sprites for this animation
+        path = kwargs.get('path',None)
+        self.center = kwargs.get('loc',(random.randint(10,self.game_width-10),random.randint(10,self.game_height-10)))
+
+        # if not throw error
+        if not path:
+            print("Error: Need path of sprites!")
+            sys.exit(0)
+
+        
+        collection = LoadJson(path,'items.json')
+
+        choices = []
+
+        for key,values in collection.items():
+            print(key)
+            print(values)
+            L = [key] * values['weight']
+            choices.extend(L)
+
+        random.shuffle(choices)
+
+        self.key = random.choice(choices)
+
+        item = collection[self.key]
+
+        self.points = item['points']
+
+        # prime the animation
+        self.image = pygame.image.load(os.path.join(path,item['img']))
+        self.rect = self.image.get_rect()
+        self.rect.center = self.center 
+
+        self.dx = random.choice([-1,0,1])
+        self.dy = random.choice([-1,0,1])
+        self.speed = 3
+        self.speed = 3
+
+    def update(self):
+
+        if self.rect.centerx <= 0 or self.rect.centerx >= self.game_width:
+            self.dx *= -1
+
+        if self.rect.centery <= 0 or self.rect.centery >= self.game_height:
+            self.dy *= -1
+
+        x = self.rect.centerx + (self.speed * self.dx)
+        y = self.rect.centery + (self.speed * self.dy)
+
+        self.rect.center = (x,y)
+        
 
 def main():
     pygame.init()
@@ -313,13 +407,25 @@ def main():
 
     # sprite group to handle all the visuals
     all_sprites = pygame.sprite.Group()
+    mob_group = pygame.sprite.Group()
+    player_group = pygame.sprite.Group()
 
     # help control event timing
     clock = pygame.time.Clock()
 
-    player = Player(player_sprites=config['sprite_sheets']['green_monster']['path'],loc=(random.randint(0,width),random.randint(0,height)))
+    player = Player(player_sprites=config['sprite_sheets']['pac_man_orange']['path'],loc=(random.randint(0,width),random.randint(0,height)))
+
+    player_group.add(player)
+    
+
+    for i in range(50):
+        m = Mob(path=config['sprite_sheets']['random']['path'])
+        mob_group.add(m)
+        all_sprites.add(m)
 
     all_sprites.add(player)
+
+
 
     # Run until the user asks to quit
     # game loop
@@ -349,18 +455,33 @@ def main():
                 pass
                 
             if event.type == pygame.MOUSEBUTTONUP:
-                print(pygame.mouse.get_pos())
-                # if pygame.time.get_ticks() % 2 == 0:
-                #     e = Explosion(fx_sprites=config['sprite_sheets']['explosion_01']['path'],loc=pygame.mouse.get_pos())
-                # else:
-                #     e = Explosion(fx_sprites=config['sprite_sheets']['explosion_02']['path'],loc=pygame.mouse.get_pos())
-                # all_sprites.add(e)
+                #print(pygame.mouse.get_pos())
+                #player.endlife()
+                player.rect.center = pygame.mouse.get_pos()
 
         all_sprites.update()
+
+
+        for item in mob_group:
+            gets_hit = pygame.sprite.collide_rect(item, player)
+            if gets_hit:
+                print(item.points)
+                if item.key == 'grenade':
+                    e = Explosion(fx_sprites=config['sprite_sheets']['explosion_01']['path'],loc=player.rect.center)
+                    all_sprites.add(e)
+                    player.kill()
+                    all_sprites.remove(player)
+
+                    # This is NOT the way to finish the game!!!
+                    running = False
+                    # 1) You should find a way to let the explosion finish
+                    # 2) Next steps would be splash screen and restart game.
+                    # 3) These will come in subsequent assignments
+                item.kill()
+
         all_sprites.draw(screen)
 
         pygame.display.flip()
-
 
     # Done! Time to quit.
     pygame.quit()

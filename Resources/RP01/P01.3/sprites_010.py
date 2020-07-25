@@ -355,7 +355,7 @@ class Mob(pygame.sprite.Sprite):
         for key,values in collection.items():
             print(key)
             print(values)
-            L = [key] * values['weight']
+            L = [key] * values['weight']         
             choices.extend(L)
 
         random.shuffle(choices)
@@ -407,7 +407,7 @@ def main():
 
     mob_group = pygame.sprite.Group()
 
-    for i in range(25):
+    for i in range(50):
         m = Mob(path=config['sprite_sheets']['random']['path'])
         mob_group.add(m)
         all_sprites.add(m)

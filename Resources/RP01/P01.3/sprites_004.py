@@ -203,10 +203,10 @@ class Player(pygame.sprite.Sprite):
         # load images and "convert" them. (see link at top for explanation)
         for anim,imglist in self.animation_images.items():
             self.sprites[anim] = []
+           
             for img in imglist:
                 self.sprites[anim].append(pygame.image.load(img))
 
-        pprint.pprint(self.sprites)
 
         # animation variables
         self.moves = list(self.sprites.keys())
