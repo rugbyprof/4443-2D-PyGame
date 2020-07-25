@@ -13,7 +13,7 @@ Extracting will take a sprite sheet (basic one) with consistent size frames and 
 **Example 1:**  extract all the images (including a bunch of blank ones at the end)
 
 ```bash        
-python spriter.py action=extract inpath=pacman_ghosts.png outpath=pacman_ghosts_folder name=pacman_orange rows=9 cols=17 frame_width=40 frame_height=40 direction=xy
+python spriter.py action=extract inpath=pacman_ghosts.png outpath=pacman_ghosts_folder name=pacman_images rows=9 cols=17 frame_width=40 frame_height=40 direction=xy
 ```
 
 This wouldn't much good if you wanted to seperate each color of the pacman sheet. See following...
