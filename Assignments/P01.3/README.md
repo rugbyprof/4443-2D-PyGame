@@ -7,6 +7,8 @@ This part of the assignment is to incorporate your own sprite animation and crea
 
 Initially I was kind of expecting an animated sprite that indicated moving around the screen, but any animation that plays is ok. If it just plays over and over again without ever stopping. Than I will have to remove some points. The animation needs to be triggered by some event. The event can be moving, or clicking, or hitting a key. Just make sure you put in your instructions what needs to happen.
 
+Whatever animation you add, just don't straight rip off my example code. Use the example code, just make it different enough that you had to work at it. 
+
 ### Helper Code
 
 - [All Files Here](../../Resources/RP01/P01.3/README.md)
