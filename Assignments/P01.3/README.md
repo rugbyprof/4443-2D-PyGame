@@ -1,4 +1,4 @@
-## Project 1.3 - CovidZAR Camera View
+## Project 1.3 - CovidZAR Sprite Animation
 #### Due: 07-26-2020 (Sunday @ 12:30 p.m.)
 
 ## Overview of Part 3
