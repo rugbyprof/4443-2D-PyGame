@@ -1,5 +1,5 @@
 ## Project 1.4 - CovidZAR Shooting & Sound
-#### Due: 07-28-2020 (Tuesday @ 12:30 p.m.)
+#### Due: 07-29-2020 (Wednesday @ 12:30 p.m.)
 
 ## Overview of Part 4
 

@@ -8,7 +8,9 @@
  | [P01.0](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.0) | [ Project 1 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.0) | [ CovidZAR.EIEIO](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.0) | [Multiple Dates](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.0) |
  | [P01.1](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.1) | [ Project 1.1 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.1) | [ CovidZAR.EIEIO](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.1) | [07-16-2020 (Thursday @ 12:30 p.m.)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.1) |
  | [P01.2](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.2) | [ Project 1.2 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.2) | [ CovidZAR Camera View](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.2) | [07-24-2020 (Friday @ 12:30 p.m.)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.2) |
- | [P01.3](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.3) | [ Project 1.3 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.3) | [ CovidZAR Camera View](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.3) | [07-26-2020 (Sunday @ 12:30 p.m.)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.3) |
+ | [P01.3](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.3) | [ Project 1.3 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.3) | [ CovidZAR Sprite Animation](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.3) | [07-26-2020 (Sunday @ 12:30 p.m.)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.3) |
+ | [P01.4](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.4) | [ Project 1.4 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.4) | [ CovidZAR Shooting & Sound](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.4) | [07-29-2020 (Wednesday @ 12:30 p.m.)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.4) |
+ | [P01.Presentation](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.Presentation) | [ Project 1 ](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.Presentation) | [ CovidZAR Presentation](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.Presentation) | [07-30-2020 (Thursday @ 12:30 p.m.)](https://github.com/rugbyprof/4443-2D-PyGame/tree/master/Assignments/P01.Presentation) |
 
     
 ## File Legend
@@ -21,4 +23,4 @@
 |xx-**T**xx | This is a ***Test***. Usually when on github, it will start out as a study guide, then get accompanied with a solution after the exam. |
 
     
-<sup>Last Updated: 2020-07-21 (Tue @ 20:57)</sup>
+<sup>Last Updated: 2020-07-27 (Mon @ 14:50)</sup>
