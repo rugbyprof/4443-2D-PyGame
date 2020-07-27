@@ -486,6 +486,8 @@ class Bullet1(pygame.sprite.Sprite):
         self.rect.centerx = x
         self.speed = 10
         self.angle = self.CalcDirection()
+        self.dx = 1
+        self.dy = 1
 
     def CalcDirection(self):
         """ returns the angle in which to send the bullet
@@ -500,12 +502,20 @@ class Bullet1(pygame.sprite.Sprite):
 
     def update(self):
 
-        self.rect.x += int(self.speed * math.cos(self.angle))
-        self.rect.y += int(self.speed * math.sin(self.angle))
+        self.rect.x += int(self.speed * math.cos(self.angle)) * self.dx
+        self.rect.y += int(self.speed * math.sin(self.angle)) * self.dy
+
+
+        if self.rect.centerx <= 0 or self.rect.centerx >= self.game_width:
+            self.dx = -1
+
+        if self.rect.centery <= 0 or self.rect.centery >= self.game_height:
+            self.dy = -1
 
         # kill if it moves off the top of the screen
-        if self.offWorld():
-            self.kill()
+        # if self.offWorld():
+        #     self.kill()
+
 
 
 def main():
@@ -557,8 +567,8 @@ def main():
     
 
     #pygame.mixer.sound.play()
-    game_track.set_volume(0.5)
-    game_track.play(loops=-1)
+    # game_track.set_volume(0.5)
+    # game_track.play(loops=-1)
     # Run until the user asks to quit
     # game loop
     running = True
