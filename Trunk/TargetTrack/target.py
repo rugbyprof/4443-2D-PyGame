@@ -37,7 +37,7 @@ from pygame.locals import (
 # Keep up with the config stuff. Adding sprite sheets for
 # characters and other graphics now
 config = {
-    'title' :'P01.3 Pygame Sprite Movement',
+    'title' :'P01.4 Missile Command',
     'window_size' : {
         'width' : 800,
         'height' : 800

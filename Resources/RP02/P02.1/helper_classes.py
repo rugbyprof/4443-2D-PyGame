@@ -11,100 +11,118 @@ import os
 import math
 import glob
 
+from helper_functions import *
 
-
-#####################################################################################################################
-#####################################################################################################################
-
-███████╗██╗███╗   ███╗██████╗ ██╗     ███████╗ █████╗ ███╗   ██╗██╗███╗   ███╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
-██╔════╝██║████╗ ████║██╔══██╗██║     ██╔════╝██╔══██╗████╗  ██║██║████╗ ████║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
-███████╗██║██╔████╔██║██████╔╝██║     █████╗  ███████║██╔██╗ ██║██║██╔████╔██║███████║   ██║   ██║██║   ██║██╔██╗ ██║
-╚════██║██║██║╚██╔╝██║██╔═══╝ ██║     ██╔══╝  ██╔══██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║   ██║   ██║██║   ██║██║╚██╗██║
-███████║██║██║ ╚═╝ ██║██║     ███████╗███████╗██║  ██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
-╚══════╝╚═╝╚═╝     ╚═╝╚═╝     ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+####################################################################################
+####################################################################################
+#  ██████╗ ██████╗ ██╗      ██████╗ ██████╗  ██████╗██╗      █████╗ ███████╗███████╗
+# ██╔════╝██╔═══██╗██║     ██╔═══██╗██╔══██╗██╔════╝██║     ██╔══██╗██╔════╝██╔════╝
+# ██║     ██║   ██║██║     ██║   ██║██████╔╝██║     ██║     ███████║███████╗███████╗
+# ██║     ██║   ██║██║     ██║   ██║██╔══██╗██║     ██║     ██╔══██║╚════██║╚════██║
+# ╚██████╗╚██████╔╝███████╗╚██████╔╝██║  ██║╚██████╗███████╗██║  ██║███████║███████║
+#  ╚═════╝ ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝
                                                                                                                      
 
-class SimpleAnimation(pygame.sprite.Sprite):
-    """ Animation:
-            This class will run a basic animation for you. 
-        Params:
-            path <string>   : path to folder of images
-            loc <tuple>     : location to place animation
-            loop <bool>     : keep running animation?
+class Colors:
+    """ Dictionary of events all kept in one place for use in other classes.
+        Not sure on "best practices" or performance, but this lets me pass
+        all the events to any class or function that needs em.
     """
-    def __init__(self, **kwargs):
+    def __init__(self):
+        pass
+        
+    @staticmethod
+    def RGB(name):
+        f = open("./resources/data/colors.json","r")
+        data = json.loads(f.read())
+        if name in data:
+            return data[name]['rgb']
+        
+        return None
+    @staticmethod
+    def HEX(name):
+        f = open("./resources/data/colors.json","r")
+        data = json.loads(f.read())
+        if name in data:
+            return data[name]['hex']
+        
+        return None
 
-        # Initiate this sprite
-        pygame.sprite.Sprite.__init__(self)
 
-        # get location of sprites for this animation
-        path = kwargs.get('path',None)
-
-        # if not throw error
-        if not path:
-            print("Error: Need location of path!")
-            sys.exit(0)
-
-        self.center = kwargs.get('loc',(0,0))
-
-        # Does this animation keep looping?
-        self.loop = kwargs.get('loop',False)
-
-        # This function finds the json file and loads all the 
-        # image names into a list
-        self.images = LoadSpriteImages(path)
-
-        # container for all the pygame images
-        self.frames = []
-
-        # load images and "convert" them. (see link at top for explanation)
-        for image in self.images:
-            self.frames.append(pygame.image.load(image))
-
-        # animation variables
-        self.frame = 0
-        self.last_update = pygame.time.get_ticks()
-        self.frame_rate = 50                        # smaller = faster
-
-        # prime the animation
-        self.image = self.frames[0]
-        self.rect = self.image.get_rect()
-        self.rect.center = self.center 
-
-    def setLocation(self,loc):
-        """ Set the center of the explosion
-        """
-        self.center = loc
-        self.rect.center = loc
-    
-    def update(self):
-        """ Overloaded method from sprite which gets called by the game loop when 
-            a sprite group gets updated
-        """
-        now = pygame.time.get_ticks()                   # get current game clock
-        if now - self.last_update > self.frame_rate:    
-            self.last_update = now
-            self.frame += 1
-            if self.frame == len(self.frames):
-                if not self.loop:
-                    self.kill()
-                else:
-                    self.frame = 0
-            else:
-                center = self.rect.center
-                self.image = self.frames[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
 
 #######################################################################################################################
 #######################################################################################################################
+# ███████╗██╗   ██╗███████╗███╗   ██╗████████╗ ██████╗ ██████╗ ███╗   ██╗████████╗ █████╗ ██╗███╗   ██╗███████╗██████╗ 
+# ██╔════╝██║   ██║██╔════╝████╗  ██║╚══██╔══╝██╔════╝██╔═══██╗████╗  ██║╚══██╔══╝██╔══██╗██║████╗  ██║██╔════╝██╔══██╗
+# █████╗  ██║   ██║█████╗  ██╔██╗ ██║   ██║   ██║     ██║   ██║██╔██╗ ██║   ██║   ███████║██║██╔██╗ ██║█████╗  ██████╔╝
+# ██╔══╝  ╚██╗ ██╔╝██╔══╝  ██║╚██╗██║   ██║   ██║     ██║   ██║██║╚██╗██║   ██║   ██╔══██║██║██║╚██╗██║██╔══╝  ██╔══██╗
+# ███████╗ ╚████╔╝ ███████╗██║ ╚████║   ██║   ╚██████╗╚██████╔╝██║ ╚████║   ██║   ██║  ██║██║██║ ╚████║███████╗██║  ██║
+# ╚══════╝  ╚═══╝  ╚══════╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
+                                                                                                                     
 
-██████╗ ██╗      █████╗ ██╗   ██╗███████╗██████╗  █████╗ ███╗   ██╗██╗███╗   ███╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
-██╔══██╗██║     ██╔══██╗╚██╗ ██╔╝██╔════╝██╔══██╗██╔══██╗████╗  ██║██║████╗ ████║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
-██████╔╝██║     ███████║ ╚████╔╝ █████╗  ██████╔╝███████║██╔██╗ ██║██║██╔████╔██║███████║   ██║   ██║██║   ██║██╔██╗ ██║
-██╔═══╝ ██║     ██╔══██║  ╚██╔╝  ██╔══╝  ██╔══██╗██╔══██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║   ██║   ██║██║   ██║██║╚██╗██║
-██║     ███████╗██║  ██║   ██║   ███████╗██║  ██║██║  ██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
-╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+class EventContainer:
+    """ Dictionary of events all kept in one place for use in other classes.
+        Not sure on "best practices" or performance, but this lets me pass
+        all the events to any class or function that needs em.
+    """
+    def __init__(self):
+        self.events = {
+            'keydown':None,
+            'keyup':None,
+            'mouse_motion':None,
+            'mouse_button_up':None,
+            'all_pressed':None
+        }
+
+    def reset(self):
+        """ Set all to None
+        """
+        for k,v in self.events.items():
+            self.events[k] = None
+
+    def __str__(self):
+        """Dump instance to screen or wherever
+        """
+        s = ''
+        for k,v in self.events.items():
+            if k == 'all_pressed':
+                continue
+            s += f"{k} : {v}\n"
+
+        return s
+
+
+
+################################################################################################################
+################################################################################################################
+# ██╗      ██████╗  ██████╗  ██████╗ 
+# ██║     ██╔═══██╗██╔════╝ ██╔════╝ 
+# ██║     ██║   ██║██║  ███╗██║  ███╗
+# ██║     ██║   ██║██║   ██║██║   ██║
+# ███████╗╚██████╔╝╚██████╔╝╚██████╔╝
+# ╚══════╝ ╚═════╝  ╚═════╝  ╚═════╝ 
+
+class Logg:
+    """
+    Simple little logger clas to help with debugging.
+    Python has built in logging, so check it out if your interested.
+    """
+    def __init__(self):
+        self.logfile = open("logger.txt","w")
+
+    def log(self,stuff):
+        self.logfile.write(stuff+"\n")
+
+
+
+###########################################################################################################################
+###########################################################################################################################
+# ██████╗ ██╗      █████╗ ██╗   ██╗███████╗██████╗  █████╗ ███╗   ██╗██╗███╗   ███╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
+# ██╔══██╗██║     ██╔══██╗╚██╗ ██╔╝██╔════╝██╔══██╗██╔══██╗████╗  ██║██║████╗ ████║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
+# ██████╔╝██║     ███████║ ╚████╔╝ █████╗  ██████╔╝███████║██╔██╗ ██║██║██╔████╔██║███████║   ██║   ██║██║   ██║██╔██╗ ██║
+# ██╔═══╝ ██║     ██╔══██║  ╚██╔╝  ██╔══╝  ██╔══██╗██╔══██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║   ██║   ██║██║   ██║██║╚██╗██║
+# ██║     ███████╗██║  ██║   ██║   ███████╗██║  ██║██║  ██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
+# ╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
                                                                                                                      
 
 class PlayerAnimation(pygame.sprite.Sprite):
@@ -123,7 +141,6 @@ class PlayerAnimation(pygame.sprite.Sprite):
         self.frame_rate = kwargs.get('frame_rate',50)
         self.dx = kwargs.get('dx',random.choice([-1,0,1]))
         self.dy = kwargs.get('dy',random.choice([-1,0,1]))
-
 
         # This function finds the json file and loads all the 
         # image names into a list
@@ -250,66 +267,98 @@ class PlayerAnimation(pygame.sprite.Sprite):
                 self.rect = self.image.get_rect()
                 self.rect.center = center
 
-################################################################################################################
-################################################################################################################
 
-██╗      ██████╗  ██████╗  ██████╗ 
-██║     ██╔═══██╗██╔════╝ ██╔════╝ 
-██║     ██║   ██║██║  ███╗██║  ███╗
-██║     ██║   ██║██║   ██║██║   ██║
-███████╗╚██████╔╝╚██████╔╝╚██████╔╝
-╚══════╝ ╚═════╝  ╚═════╝  ╚═════╝ 
 
-class Logg:
-    """
-    Simple little logger clas to help with debugging.
-    Python has built in logging, so check it out if your interested.
-    """
-    def __init__(self):
-        self.logfile = open("logger.txt","w")
-
-    def log(self,stuff):
-        self.logfile.write(stuff+"\n")
-
-################################################################################################################
-################################################################################################################
-
-███████╗██╗   ██╗███████╗███╗   ██╗████████╗ ██████╗ ██████╗ ███╗   ██╗████████╗ █████╗ ██╗███╗   ██╗███████╗██████╗ 
-██╔════╝██║   ██║██╔════╝████╗  ██║╚══██╔══╝██╔════╝██╔═══██╗████╗  ██║╚══██╔══╝██╔══██╗██║████╗  ██║██╔════╝██╔══██╗
-█████╗  ██║   ██║█████╗  ██╔██╗ ██║   ██║   ██║     ██║   ██║██╔██╗ ██║   ██║   ███████║██║██╔██╗ ██║█████╗  ██████╔╝
-██╔══╝  ╚██╗ ██╔╝██╔══╝  ██║╚██╗██║   ██║   ██║     ██║   ██║██║╚██╗██║   ██║   ██╔══██║██║██║╚██╗██║██╔══╝  ██╔══██╗
-███████╗ ╚████╔╝ ███████╗██║ ╚████║   ██║   ╚██████╗╚██████╔╝██║ ╚████║   ██║   ██║  ██║██║██║ ╚████║███████╗██║  ██║
-╚══════╝  ╚═══╝  ╚══════╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
+#######################################################################################################################
+#######################################################################################################################
+# ███████╗██╗███╗   ███╗██████╗ ██╗     ███████╗ █████╗ ███╗   ██╗██╗███╗   ███╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
+# ██╔════╝██║████╗ ████║██╔══██╗██║     ██╔════╝██╔══██╗████╗  ██║██║████╗ ████║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
+# ███████╗██║██╔████╔██║██████╔╝██║     █████╗  ███████║██╔██╗ ██║██║██╔████╔██║███████║   ██║   ██║██║   ██║██╔██╗ ██║
+# ╚════██║██║██║╚██╔╝██║██╔═══╝ ██║     ██╔══╝  ██╔══██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║   ██║   ██║██║   ██║██║╚██╗██║
+# ███████║██║██║ ╚═╝ ██║██║     ███████╗███████╗██║  ██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
+# ╚══════╝╚═╝╚═╝     ╚═╝╚═╝     ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
                                                                                                                      
 
-class EventContainer:
-    """ Dictionary of events all kept in one place for use in other classes.
-        Not sure on "best practices" or performance, but this lets me pass
-        all the events to any class or function that needs em.
+class SimpleAnimation(pygame.sprite.Sprite):
+    """ Animation:
+            This class will run a basic animation for you. 
+        Params:
+            path <string>   : path to folder of images
+            loc <tuple>     : location to place animation
+            loop <bool>     : keep running animation?
     """
-    def __init__(self):
-        self.events = {
-            'keydown':None,
-            'keyup':None,
-            'mouse_motion':None,
-            'mouse_button_up':None,
-            'all_pressed':None
-        }
+    def __init__(self, **kwargs):
 
-    def reset(self):
-        """ Set all to None
+        # Initiate this sprite
+        pygame.sprite.Sprite.__init__(self)
+
+        # get location of sprites for this animation
+        path = kwargs.get('path',None)
+
+        # if not throw error
+        if not path:
+            print("Error: Need location of path!")
+            sys.exit(0)
+
+        self.center = kwargs.get('loc',(0,0))
+
+        # Does this animation keep looping?
+        self.loop = kwargs.get('loop',False)
+
+        # This function finds the json file and loads all the 
+        # image names into a list
+        self.images = LoadSpriteImages(path)
+
+        # container for all the pygame images
+        self.frames = []
+
+        # load images and "convert" them. (see link at top for explanation)
+        for image in self.images:
+            self.frames.append(pygame.image.load(image))
+
+        # animation variables
+        self.frame = 0
+        self.last_update = pygame.time.get_ticks()
+        self.frame_rate = 50                        # smaller = faster
+
+        # prime the animation
+        self.image = self.frames[0]
+        self.rect = self.image.get_rect()
+        self.rect.center = self.center 
+
+    def setLocation(self,loc):
+        """ Set the center of the explosion
         """
-        for k,v in self.events.items():
-            self.events[k] = None
-
-    def __str__(self):
-        """Dump instance to screen or wherever
+        self.center = loc
+        self.rect.center = loc
+    
+    def update(self):
+        """ Overloaded method from sprite which gets called by the game loop when 
+            a sprite group gets updated
         """
-        s = ''
-        for k,v in self.events.items():
-            if k == 'all_pressed':
-                continue
-            s += f"{k} : {v}\n"
+        now = pygame.time.get_ticks()                   # get current game clock
+        if now - self.last_update > self.frame_rate:    
+            self.last_update = now
+            self.frame += 1
+            if self.frame == len(self.frames):
+                if not self.loop:
+                    self.kill()
+                else:
+                    self.frame = 0
+            else:
+                center = self.rect.center
+                self.image = self.frames[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
 
-        return s
 
+
+
+if __name__=='__main__':
+    c = ColorClass()
+
+    print(c.RGB("lightgray"))
+    print(c.HEX("lightgray"))
+
+
+    

@@ -1,7 +1,7 @@
 import helper_module
 from helper_module import *
 
-class Bullet(SimpleAnimation)
+class Bullet(SimpleAnimation):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
