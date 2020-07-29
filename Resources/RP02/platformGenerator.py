@@ -114,7 +114,7 @@ TODO:
                 __________0000000_____00000000              __________0000000_____00000000
                 00000_____000000000___00000000              00000_____000000000___00000000
 
-    2) TEST eachparameter to make sure all my parameters do as advertised (I'm positive they don't)! But it is a working base model.
+    2) TEST each parameter to make sure all my parameters do as advertised (I'm positive they don't)! But it is a working base model.
 """
 import random
 import os
