@@ -20,6 +20,7 @@ from helper_module import rgb_colors
 from helper_module import mykwargs
 from helper_module import straightDistance
 from helper_module import getCardinalDirection
+from helper_module import manhattanDistance
 
 # Import pygame.locals for easier access to key coordinates
 # Updated to conform to flake8 and black standards
@@ -52,6 +53,7 @@ config = {
         'pac_man_pink':{'path':'./media/characters/pacman_ghost_pink'},
         'pac_man_blue':{'path':'./media/characters/pacman_ghost_blue'},
         'random':{'path':'./media/collections/pacman_items'},
+        'energy_rocket':{'path':'./media/fx/projectile'}
     },
     'images':{
         'bad_guy':{'path':'./media/collections/shoot_example/silhouette.png'},
@@ -124,11 +126,13 @@ def  LoadSpriteImages(path):
         images = sprite_info['frames']
         
         if type(images) == list:
-            pass
+            for i in range(len(images)):
+                images[i] = os.path.join(path,base_name+images[i]+ext)
         elif type(images) == str and images == '*':
             images = glob.glob(os.path.join(path,'*'+ext))
             images.sort()
-            return images
+        
+        return images
 
     else:
         print(f"Error: 'moves' or 'frames' key not in json!!")
@@ -283,12 +287,8 @@ class Player(pygame.sprite.Sprite):
             for img in imglist:
                 self.sprites[anim].append(pygame.image.load(img))
 
-        pprint.pprint(self.sprites)
-
         # animation variables
         self.animations = list(self.sprites.keys())
-
-        print(self.animations)
 
         self.gameover = False
 
@@ -311,8 +311,6 @@ class Player(pygame.sprite.Sprite):
 
         self.shoot_sound = pygame.mixer.Sound("./media/sounds/gun-shot.ogg")
         self.shoot_sound.set_volume(0.5)
-
-        self.locked = None
 
     def move(self):
 
@@ -404,13 +402,26 @@ class Player(pygame.sprite.Sprite):
                 self.rect = self.image.get_rect()
                 self.rect.center = center
 
-    def shoot(self,target,mobster=None,fixed=False):
-        if mobster:
-            self.locked = mobster
+    def shoot_bullet(self,target):
+        if not target:
+            return None
         now = pygame.time.get_ticks()
         if now - self.last_shot > self.shoot_delay:
             self.last_shot = now
+            
             bullet = Bullet1(self.rect.centerx, self.rect.centery,target[0],target[1])
+
+            self.shoot_sound.play()
+            return bullet
+        return None
+
+    def shoot_missile(self,mobster):
+        now = pygame.time.get_ticks()
+        if now - self.last_shot > self.shoot_delay:
+            self.last_shot = now
+            
+            bullet = Missile(self.rect.centerx,self.rect.centery,mobster)
+
             self.shoot_sound.play()
             return bullet
         return None
@@ -426,7 +437,6 @@ class Mob(pygame.sprite.Sprite):
         self.game_height = config['window_size']['height']
         self.new_size = kwargs.get('new_size',(10,15))
    
-
         # get location of sprites for this animation
         path = kwargs.get('path',None)
         self.center = kwargs.get('loc',(random.randint(10,self.game_width-10),random.randint(10,self.game_height-10)))
@@ -443,12 +453,9 @@ class Mob(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = self.center 
 
-        self.dx = 0
-        self.dy = 0
-        # make sure items aren't motionless
-        while self.dx + self.dy == 0:
-            self.dx = random.choice([-1,0,1])
-            self.dy = random.choice([-1,0,1])
+        self.dx = kwargs.get('dx',random.choice([-1,0,1]))
+        self.dy = kwargs.get('dy',random.choice([-1,0,1]))
+
         self.speed = 3
         self.speed = 3
 
@@ -465,7 +472,6 @@ class Mob(pygame.sprite.Sprite):
 
         self.rect.center = (x,y)
 
-
 class Bullet2(pygame.sprite.Sprite):
     def __init__(self, **kwargs):
 
@@ -474,6 +480,148 @@ class Bullet2(pygame.sprite.Sprite):
 
         # Project Assignment Part 4 !!
 
+
+class Missile(pygame.sprite.Sprite):
+    def __init__(self, x, y,target):
+        pygame.sprite.Sprite.__init__(self)
+        self.x = x
+        self.y = y
+        self.target = target
+        self.game_width = config['window_size']['width']
+        self.game_height = config['window_size']['height']
+        # self.image = pygame.image.load(config['images']['green_bullet']['path'])
+
+        self.images = LoadSpriteImages(config['sprite_sheets']['energy_rocket']['path'])
+
+        self.angle = self.CalcDirection(self.target.rect.centerx,self.target.rect.centery)
+
+        self.old_angle = self.angle
+
+        # container for all the pygame images
+        self.frames = []
+
+        self.frame_number = 0
+
+        # load images and "convert" them. (see link at top for explanation)
+        for image in self.images:
+            print(image)
+            self.frames.append(pygame.image.load(image))
+
+        self.image = self.frames[self.frame_number]
+        self.image = pygame.transform.rotate(self.image, math.degrees(self.angle))
+        self.rect = self.image.get_rect()
+        self.rect.centery = y
+        self.rect.centerx = x
+        self.speed = 10
+        
+        self.dx = 1
+        self.dy = 1
+
+        self.last_update = pygame.time.get_ticks()
+
+
+    def CalcDirection(self,tx,ty):
+        """ returns the angle in which to send the bullet
+        """
+        # Get the angle to move (in radians)
+        dx = tx - self.x
+        dy = ty - self.y
+        return math.atan2(dy, dx)
+
+    def offWorld(self):
+        return self.rect.bottom < 0 or self.rect.right < 0 or self.rect.left > self.game_width or self.rect.top > self.game_height
+
+    def moveToward(self):
+
+        x,y = self.rect.center
+        dx = self.speed
+        dy = self.speed
+        min_dist = 99999
+        choices = [(0,-dy),(dx,-dy),(dx,0),(dx,dy),(0,dy),(-dx,dy),(-dx,0),(-dx,-dy)]
+        results = []
+
+        for c in choices:
+            results.append(manhattanDistance((c[0] + x , c[1] + y),self.target.rect.center))
+        
+        min_dist = min(results)
+        min_index = results.index(min_dist)
+        
+        return choices[min_index]
+
+    def update(self):
+        now = pygame.time.get_ticks()                   # get current game clock
+
+        if now - self.last_update > 50:
+
+            if now - self.last_update > 100:
+                if self.frame_number < len(self.frames)-1:
+                    self.frame_number += 1
+                    self.image = self.frames[self.frame_number]
+
+            self.angle = self.CalcDirection(self.target.rect.centerx,self.target.rect.centery)
+
+            print(math.degrees(abs(self.angle - self.old_angle)))
+
+            if math.degrees(abs(self.angle - self.old_angle)) > 2:
+                self.image = pygame.transform.rotate(self.image , math.degrees(self.angle))
+                self.old_angle = self.angle
+
+            direction_tuple = self.moveToward()
+
+            self.rect.centerx += direction_tuple[0]
+            self.rect.centery += direction_tuple[1]
+
+            self.last_update = now
+
+        # kill if it moves off the top of the screen
+        if self.offWorld():
+            self.kill()
+        
+
+    def update2(self):
+        """ NOT USED"""
+        dx = self.speed
+        dy = self.speed
+
+        #cardinal_directions = ('W','NW','N','NE','E','SE','S','SW')
+        #rotate = [(0,dy),(-dx,dy),(-dx,0),(-dx,-dy),(0,-dy),(dx,-dy),(dx,0),(dx,dy)]
+        rotate = [(dx,0),(dx,dy),(0,dy),(-dx,dy),(-dx,0),(-dx,-dy),(0,-dy),(dx,-dy)]
+
+        # direction_tuple = self.moveToward()
+      
+        angle = self.CalcDirection(self.target.rect.centerx,self.target.rect.centery)
+        octant = round(8 * angle / (2*math.pi) + 8) % 8
+
+        # self.rect.x += int(self.speed * math.cos(angle)) * self.dx
+        # self.rect.y += int(self.speed * math.sin(angle)) * self.dy
+ 
+        # self.rect.x += direction_tuple[0]
+        # self.rect.y += direction_tuple[1]
+
+        # if self.rect.centerx <= 0 or self.rect.centerx >= self.game_width:
+        #     self.dx *= -1
+
+        # if self.rect.centery <= 0 or self.rect.centery >= self.game_height:
+        #     self.dy *= -1
+
+        # self.rect.centerx += int(self.speed * math.cos(angle)) * self.dx
+        # self.rect.centery += int(self.speed * math.sin(angle)) * self.dy
+
+        #i = cards.index(octant)
+
+        now = pygame.time.get_ticks()                   # get current game clock
+        if now - self.last_update > 250:
+            print(f"{self.rect.center} , target: {self.target.rect.center}")
+            print(f"angle: {round(angle,2)*2*math.pi} , octant: {octant}")
+
+            self.rect.centerx += (self.speed * rotate[octant][0])
+            self.rect.centery += (self.speed * rotate[octant][1])
+
+            self.last_update = now
+
+        # kill if it moves off the top of the screen
+        if self.offWorld():
+            self.kill()
 
 class Bullet1(pygame.sprite.Sprite):
     def __init__(self, x, y,target_x,target_y):
@@ -520,7 +668,6 @@ class Bullet1(pygame.sprite.Sprite):
         # if self.offWorld():
         #     self.kill()
 
-
 def main():
     pygame.init()
 
@@ -546,13 +693,14 @@ def main():
     # help control event timing
     clock = pygame.time.Clock()
 
-    player = Player(player_sprites=config['sprite_sheets']['pac_man_orange']['path'],loc=(random.randint(0,width),random.randint(0,height)))
-
+    #player = Player(player_sprites=config['sprite_sheets']['pac_man_orange']['path'],loc=(random.randint(0,width),random.randint(0,height)))
+    player = Player(player_sprites=config['sprite_sheets']['pac_man_orange']['path'],loc=(30,30))
     player_group.add(player)
     
 
     for i in range(1):
-        m = Mob(path=config['images']['bad_guy']['path'],new_size=(20,30))
+        print((width-100,height//2))
+        m = Mob(path=config['images']['bad_guy']['path'],new_size=(30,40),loc=(width-25,height-25),dx=0,dy=1)
         mob_group.add(m)
         all_sprites.add(m)
 
@@ -576,19 +724,22 @@ def main():
     # game loop
     running = True
 
-    target = None
 
     while running:
 
         clock.tick(config['fps'])
 
         # fill screen with white
-        screen.fill(colors['white'])
+        screen.fill(colors['lightgray'])
 
         # show background grid (no moving it)
-        screen.blit(background, (0,0),(0,0,width,height))
+        #screen.blit(background, (0,0),(0,0,width,height))
 
         for event in pygame.event.get():
+
+            mobster = None
+            target = None
+
             if event.type == pygame.QUIT:
                 running = False
 
@@ -602,26 +753,25 @@ def main():
                 pass
                 
             if event.type == pygame.MOUSEBUTTONUP:
-                fixed = False
-                mobster = None
+
                 target = pygame.mouse.get_pos()
-                
+
                 for mob in mob_group:
-                    collision = mob.rect.collidepoint(target[0], target[1])
-                    if collision:
-                        mobster = mob
-                        fixed = True
-                        break
+                    # collision = mob.rect.collidepoint(target[0], target[1])
+                    # if collision:
+                    mobster = mob
+                    break
 
-                bullet = player.shoot(target,mobster,fixed)
+            if mobster:
+                bullet = player.shoot_missile(mobster)
+            else:
+                bullet = player.shoot_bullet(target)
                 
-                if bullet:
-                    all_sprites.add(bullet)
-                    bullets_group.add(bullet)
-                    shoot_sound.play()
+            if bullet:
+                all_sprites.add(bullet)
+                bullets_group.add(bullet)
+                    
 
-        if target:
-            print(target.rect.midtop)
         all_sprites.update()
 
 
@@ -637,11 +787,13 @@ def main():
                     if bullet.rect.bottom - mob.rect.top < 5:
                         head_shot.play()
                         mob.kill()
+                    bullet.kill()
                     e = Explosion(fx_sprites=config['sprite_sheets']['explosion_04']['path'],loc=mob.rect.center)
                     kill_sound.play()
                     all_sprites.add(e)
 
-
+        if len(mob_group.sprites()) == 0:
+            print("hello")
         all_sprites.draw(screen)
 
         pygame.display.flip()

@@ -5,7 +5,7 @@
 
 ### Helper Code
 
-- [Help Files](../../Resources/RP01/P01.4/README.md)
+- [Help Files](../../Resources/RP01/P01.4/)
 
 ### Overview
 

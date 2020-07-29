@@ -37,6 +37,38 @@ def taxicabDistance(xA,yA,xB,yB):
     distance = abs(xA-xB) + abs(yA-yB)
     return distance
 
+def manhattanDistance(A,B,C=None,D=None):
+    '''
+    Returns the manhatten or taxi_cab distance between 2 points on a 2d grid.
+
+            Parameters:
+                    A (tuple): xy of first point
+                    B (tuple): xy of second point
+
+                            OR
+            Parameters:
+                    A (int): x coord of point 1
+                    B (int): y coord of point 1
+                    C (int): x coord of point 2
+                    D (int): y coord of point 2
+
+            Returns:
+                    distance (float): Manhattan or taxicab  distance
+    '''
+    if type(A) == tuple and type(B) == tuple:
+        xA = A[0]
+        yA = A[1]
+        xB = B[0]
+        yB = B[1]
+    else:
+        xA = A
+        yB = B
+        xB = C
+        yB = D
+
+    distance = abs(xA-xB) + abs(yA-yB)
+    return distance
+
 def mykwargs(argv):
     '''
     Processes argv list into plain args and kwargs.
@@ -111,8 +143,10 @@ def getCardinalDirection(origin,target):
                 cardinal_direction (string) : one of 'W','NW','N','NE','E','SE','S','SW'
     """
     cards = []
-    dx = origin[0] - target[0]
-    dy = origin[1] - target[1]
+    # dx = origin[0] - target[0]
+    # dy = origin[1] - target[1]
+    dx = target[0] - origin[0]
+    dy = target[1] - origin[1]
     angle = math.atan2(dy, dx)
 
     octant = round(8 * angle / (2*math.pi) + 8) % 8

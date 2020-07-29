@@ -1,0 +1,56 @@
+{
+    "title": "Project 2 - Platformer",
+    "window_size": {
+        "width": 640,
+        "height": 480
+    },
+    "sprite_sheets": {
+        "explosion_01": {
+            "path": "./media/fx/explosion_01"
+        },
+        "explosion_02": {
+            "path": "./media/fx/green_blob_explosion_01"
+        },
+        "explosion_03": {
+            "path": "./media/fx/blood_explosion"
+        },
+        "explosion_04": {
+            "path": "./media/fx/blood_explosion_v2"
+        },
+        "green_monster": {
+            "path": "./media/characters/green_monster"
+        },
+        "pac_man_orange": {
+            "path": "./media/characters/pacman_ghost_orange"
+        },
+        "pac_man_red": {
+            "path": "./media/characters/pacman_ghost_red"
+        },
+        "pac_man_pink": {
+            "path": "./media/characters/pacman_ghost_pink"
+        },
+        "pac_man_blue": {
+            "path": "./media/characters/pacman_ghost_blue"
+        },
+        "random": {
+            "path": "./media/collections/pacman_items"
+        }
+    },
+    "images": {
+        "bad_guy": {
+            "path": "./media/collections/shoot_example/silhouette.png"
+        },
+        "green_bullet": {
+            "path": "./media/collections/shoot_example/green_bullet.png"
+        }
+    },
+    "sounds": {
+        "game_track": "./media/sounds/game_track.ogg",
+        "kill_sound": "./media/sounds/boom_01.ogg",
+        "head_shot": "./media/sounds/head_shot.ogg"
+    },
+    "backgrounds": {
+        "tiled_large": "./media/backgrounds/tile_1000x1000_40_light.png"
+    },
+    "fps": 60
+}
