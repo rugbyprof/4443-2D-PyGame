@@ -72,7 +72,7 @@ Params:
 
                                     Controls variations in pit size.
 
-        pit_chance                  <double>: value between 0-100 30 is default
+        pit_chance                  <int>: value between 0-100 30 is default
 
                                     Higher the value, the more pits generated.
 
