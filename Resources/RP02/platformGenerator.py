@@ -72,7 +72,7 @@ Params:
 
                                     Controls variations in pit size.
 
-        pit_chance                  <double>: value between 0-1 .3 is default
+        pit_chance                  <double>: value between 0-100 30 is default
 
                                     Higher the value, the more pits generated.
 
@@ -133,7 +133,7 @@ class PlatFormGenerator(object):
         floor_platform_buffer       <int>   : empty rows between tallest floor and first level of platforms
         pit_max_width               <int>   : max cols a pit segment can be
         pit_min_width               <int>   : min cols a pit segment can be
-        pit_chance                  <double>: value between 0-1 .3 is default
+        pit_chance                  <int>   : value between 0-100 30 is default
         pit_max_consecutive         <int>   : max pits in a row (otherwise pit could get huge)
         platform_max_width          <int>   : max width of a platform
         platform_min_width          <int>   : min width of a platform 
@@ -156,7 +156,7 @@ class PlatFormGenerator(object):
         self.floor_platform_buffer = kwargs.get('floor_platform_buffer',3)
         self.pit_max_width = kwargs.get('pit_max_width',6)
         self.pit_min_width = kwargs.get('pit_min_width',2)
-        self.pit_chance = kwargs.get('pit_chance',.3)
+        self.pit_chance = kwargs.get('pit_chance',30)
         self.pit_max_consecutive = kwargs.get('pit_max_consecutive',3)
         self.platform_max_width = kwargs.get('platform_max_width',10)
         self.platform_min_width = kwargs.get('platform_min_width',3)
@@ -172,7 +172,7 @@ class PlatFormGenerator(object):
         self.levels = kwargs.get('levels',0)
         self.platforms_per = kwargs.get('platforms_per',0)
 
-        for r in range(self.rows):
+        for r in range(int(self.rows)):
             self.matrix.append(['_' for x in range(self.cols)])
 
         self.generateFloor()
@@ -206,7 +206,8 @@ class PlatFormGenerator(object):
             
             ##  if have too many pits next to each other, add a floor block
             ##  otherwise, roll the dice to see if we make a pit
-            if consecutive_pits <= self.pit_max_consecutive and random.random() < self.pit_chance:
+            if consecutive_pits <= self.pit_max_consecutive and random.random() * 100 < self.pit_chance:
+                
                 ##  make a pit (really generate a width and add it to startx)
                 width = self.generatePit()
                 if startx + width >= endx:
@@ -439,9 +440,7 @@ def myKwargs(argv):
         if '=' in arg:
             key,val = arg.split('=')
 
-            if str.isdecimal(val):
-                val = float(val)
-            elif str.isdigit(val):
+            if str.isdigit(val):
                 val = int(val)
 
             kargs[key] = val
