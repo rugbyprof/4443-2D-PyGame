@@ -98,23 +98,23 @@ Params:
                                     Space between platforms within layers.
     
 
-Todo:
-    - Fix the issue with generating platforms in the same subset of columns. Meaning two platforms could be stacked on each other.
-      Here is a small example. Notice the 2's over the 1's. It doesn't always happen, but needs fixed.
+TODO:
+    1) Fix the issue with generating platforms in the same subset of columns. Meaning two platforms could be stacked on each other.
+       Here is a small example. Notice the 2's over the 1's. It doesn't always happen, but needs fixed.
 
-      BAD:                                          BETTER:
-        ______________________________              ___________33333______________
-        ______________________________              ______________________________
-        __22222222___22222222_________              __22222222_________22222______
-        _1111111_______1111______1111_              ______________________________
-        ______________________________              _1111111_______1111______1111_
-        ______________________________              ______________________________
-        __________0000000_____00000000              __________0000000_____00000000
-        __________0000000_____00000000              __________0000000_____00000000
-        __________0000000_____00000000              __________0000000_____00000000
-        00000_____000000000___00000000              00000_____000000000___00000000
+            BAD:                                          BETTER:
+                ______________________________              ___________33333______________
+                ______________________________              ______________________________
+                __22222222___22222222_________              __22222222_________22222______
+                _1111111_______1111______1111_              ______________________________
+                ______________________________              _1111111_______1111______1111_
+                ______________________________              ______________________________
+                __________0000000_____00000000              __________0000000_____00000000
+                __________0000000_____00000000              __________0000000_____00000000
+                __________0000000_____00000000              __________0000000_____00000000
+                00000_____000000000___00000000              00000_____000000000___00000000
 
-    - TEST to make sure all my parameters do as advertised (I'm positive they don't)! But it is a working base model.
+    2) TEST eachparameter to make sure all my parameters do as advertised (I'm positive they don't)! But it is a working base model.
 """
 import random
 import os
