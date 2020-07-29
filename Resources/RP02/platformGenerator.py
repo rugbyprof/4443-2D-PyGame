@@ -207,7 +207,7 @@ class PlatFormGenerator(object):
             ##  if have too many pits next to each other, add a floor block
             ##  otherwise, roll the dice to see if we make a pit
             if consecutive_pits <= self.pit_max_consecutive and random.random() * 100 < self.pit_chance:
-                
+
                 ##  make a pit (really generate a width and add it to startx)
                 width = self.generatePit()
                 if startx + width >= endx:
