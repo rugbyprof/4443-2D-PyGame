@@ -39,8 +39,8 @@ from pygame.locals import (
 config = {
     'title' :'P01.3 Pygame Sprite Movement',
     'window_size' : {
-        'width' : 640,
-        'height' : 480
+        'width' : 800,
+        'height' : 800
     },
     'sprite_sheets':{
         'explosion_01':{'path':'./media/fx/explosion_01'},
@@ -258,6 +258,7 @@ class Explosion(pygame.sprite.Sprite):
                 self.rect = self.image.get_rect()
                 self.rect.center = center
 
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, **kwargs):
 
@@ -305,7 +306,7 @@ class Player(pygame.sprite.Sprite):
 
         self.dx = 1
         self.dy = 1
-        self.speed = 3
+        self.speed = 2
         self.shoot_delay = 150
         self.last_shot = pygame.time.get_ticks()
 
@@ -456,8 +457,7 @@ class Mob(pygame.sprite.Sprite):
         self.dx = kwargs.get('dx',random.choice([-1,0,1]))
         self.dy = kwargs.get('dy',random.choice([-1,0,1]))
 
-        self.speed = 3
-        self.speed = 3
+        self.speed = 2
 
     def update(self):
 
@@ -481,6 +481,28 @@ class Bullet2(pygame.sprite.Sprite):
         # Project Assignment Part 4 !!
 
 
+def rotationCalculator(x1,y1,x2,y2):
+    """ Returns the angle between target and player as well as the counterclockwise rotation
+        angle for images.
+        Params:
+            x1 <int> : source x coord
+            y1 <int> : source y coord
+            x2 <int> : target x coord
+            y2 <int> : target y coord
+        Returns:
+            <tuple> (int,int) : counterclockwise_rotations for image, degree difference between source and target 
+    """
+    # Get the angle to move (in radians)
+    dx = x1 - x2
+    dy = y1 - y2
+
+    radians = math.atan2(dy, dx)+(math.pi)+(math.pi/2)
+
+    degrees = math.degrees(radians) % 360
+
+    return 360-degrees,degrees
+
+
 class Missile(pygame.sprite.Sprite):
     def __init__(self, x, y,target):
         pygame.sprite.Sprite.__init__(self)
@@ -493,27 +515,28 @@ class Missile(pygame.sprite.Sprite):
 
         self.images = LoadSpriteImages(config['sprite_sheets']['energy_rocket']['path'])
 
-        self.angle = self.CalcDirection(self.target.rect.centerx,self.target.rect.centery)
+        self.rot_angle,_ = rotationCalculator(self.x,self.y,self.target.rect.centerx,self.target.rect.centery)
 
-        self.old_angle = self.angle
+        #print(f"rot-angle: {self.rot_angle}")
+
+        self.old_angle = self.rot_angle
 
         # container for all the pygame images
         self.frames = []
-
         self.frame_number = 0
 
         # load images and "convert" them. (see link at top for explanation)
         for image in self.images:
-            print(image)
+            #print(image)
             self.frames.append(pygame.image.load(image))
 
         self.image = self.frames[self.frame_number]
-        self.image = pygame.transform.rotate(self.image, math.degrees(self.angle))
+        self.image = pygame.transform.rotate(self.image, self.rot_angle)
         self.rect = self.image.get_rect()
         self.rect.centery = y
         self.rect.centerx = x
         self.speed = 10
-        
+       
         self.dx = 1
         self.dy = 1
 
@@ -551,27 +574,32 @@ class Missile(pygame.sprite.Sprite):
     def update(self):
         now = pygame.time.get_ticks()                   # get current game clock
 
-        if now - self.last_update > 50:
+        if now - self.last_update > 20:
+            self.last_update = now
+            #if self.frame_number < len(self.frames)-1:
+            self.frame_number += 1
+            self.frame_number %= len(self.frames)
+            self.image = self.frames[self.frame_number]
+            self.image = pygame.transform.rotate(self.image , self.rot_angle)
 
-            if now - self.last_update > 100:
-                if self.frame_number < len(self.frames)-1:
-                    self.frame_number += 1
-                    self.image = self.frames[self.frame_number]
+            self.rot_angle,_ = rotationCalculator(self.x,self.y,self.target.rect.centerx,self.target.rect.centery)
+            #print(f"new angle: {self.rot_angle}")
 
-            self.angle = self.CalcDirection(self.target.rect.centerx,self.target.rect.centery)
 
-            print(math.degrees(abs(self.angle - self.old_angle)))
-
-            if math.degrees(abs(self.angle - self.old_angle)) > 2:
-                self.image = pygame.transform.rotate(self.image , math.degrees(self.angle))
-                self.old_angle = self.angle
+            if abs(self.rot_angle - self.old_angle) > 4:
+                if self.rot_angle > self.old_angle:
+                    rotate = -2
+                    self.old_angle -= 2
+                else:
+                    rotate = 2
+                    self.old_angle += 2
+                #print(f"rot:{rotate} rot_angle:{self.rot_angle} old_angle:{self.old_angle}")
+                self.image = pygame.transform.rotate(self.image ,rotate)
 
             direction_tuple = self.moveToward()
 
             self.rect.centerx += direction_tuple[0]
             self.rect.centery += direction_tuple[1]
-
-            self.last_update = now
 
         # kill if it moves off the top of the screen
         if self.offWorld():
@@ -611,8 +639,8 @@ class Missile(pygame.sprite.Sprite):
 
         now = pygame.time.get_ticks()                   # get current game clock
         if now - self.last_update > 250:
-            print(f"{self.rect.center} , target: {self.target.rect.center}")
-            print(f"angle: {round(angle,2)*2*math.pi} , octant: {octant}")
+            #print(f"{self.rect.center} , target: {self.target.rect.center}")
+            #print(f"angle: {round(angle,2)*2*math.pi} , octant: {octant}")
 
             self.rect.centerx += (self.speed * rotate[octant][0])
             self.rect.centery += (self.speed * rotate[octant][1])
@@ -694,13 +722,15 @@ def main():
     clock = pygame.time.Clock()
 
     #player = Player(player_sprites=config['sprite_sheets']['pac_man_orange']['path'],loc=(random.randint(0,width),random.randint(0,height)))
-    player = Player(player_sprites=config['sprite_sheets']['pac_man_orange']['path'],loc=(30,30))
+    player = Player(player_sprites=config['sprite_sheets']['pac_man_orange']['path'],loc=(width//2,height//2))
     player_group.add(player)
     
 
-    for i in range(1):
-        print((width-100,height//2))
-        m = Mob(path=config['images']['bad_guy']['path'],new_size=(30,40),loc=(width-25,height-25),dx=0,dy=1)
+    for i in range(5):
+        #print((width-100,height//2))
+        dx = random.choice([-1,1])
+        dy = random.choice([-1,1])
+        m = Mob(path=config['images']['bad_guy']['path'],new_size=(30,40),loc=(random.random() * width,random.random() * height),dx=dx,dy=dy)
         mob_group.add(m)
         all_sprites.add(m)
 
@@ -739,6 +769,7 @@ def main():
 
             mobster = None
             target = None
+            bullet = None
 
             if event.type == pygame.QUIT:
                 running = False
@@ -755,18 +786,23 @@ def main():
             if event.type == pygame.MOUSEBUTTONUP:
 
                 target = pygame.mouse.get_pos()
+                # m = Mob(path=config['images']['bad_guy']['path'],new_size=(10,20),loc=(target[0],target[1]),dx=0,dy=0)
+                # mob_group.add(m)
+                # all_sprites.add(m)
+                # bullet = player.shoot_missile(m)
 
                 for mob in mob_group:
-                    # collision = mob.rect.collidepoint(target[0], target[1])
-                    # if collision:
-                    mobster = mob
-                    break
+                    collision = mob.rect.collidepoint(target[0], target[1])
+                    if collision:
+                        mobster = mob
+                        break
 
             if mobster:
                 bullet = player.shoot_missile(mobster)
             else:
                 bullet = player.shoot_bullet(target)
-                
+
+            
             if bullet:
                 all_sprites.add(bullet)
                 bullets_group.add(bullet)
@@ -792,8 +828,8 @@ def main():
                     kill_sound.play()
                     all_sprites.add(e)
 
-        if len(mob_group.sprites()) == 0:
-            print("hello")
+        # if len(mob_group.sprites()) == 0:
+        #     print("hello")
         all_sprites.draw(screen)
 
         pygame.display.flip()
