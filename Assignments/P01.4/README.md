@@ -13,7 +13,7 @@ Add a directed projectile to be used as a bullet. What does that mean? Look at t
 
 <img src="https://cs.msutexas.edu/~griffin/zcloud/zcloud-files/bullets_directed.png">
 
-If you were to use this as a projectile, you would need to orient the image to be facing the correct direction. You would also need to run through the animation (once) as it flys toward the target. If it were to fly a long direction, you could start with the frame on the far right, and when it got to the last frame (far left) you could alternate between the last two frames to keep up appearances of being "alive".
+If you were to use this as a projectile, you would need to orient the image to be facing the correct direction. You would also need to run through the animation (once) as it flies toward the target. If it were to fly a long direction, you could start with the frame on the far right, and when it got to the last frame (far left) you could alternate between the last two frames to keep up appearances of being "alive".
 
 - To orient the sprite correctly:
   - we need to calculate the angle between the player and the target
@@ -39,8 +39,8 @@ def rot_center(image, angle):
 ### General
 
 - Add an oriented bullet sprite to your game
-- Ensure it is "oriented" and flys in the direction of the target.
-- The bullet should be a sprite that looks animated as it flys (e.g. flaming projectile, rocket, energy weapon, etc.)
+- Ensure it is "oriented" and flies in the direction of the target.
+- The bullet should be a sprite that looks animated as it flies (e.g. flaming projectile, rocket, energy weapon, etc.)
 - A sound should play when fired (related to your weapon - not a gunshot sound for a flaming ball).
 - A sound should play when target hit (same as above)
 - An animation should play when target is hit (same as above)
