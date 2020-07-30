@@ -50,16 +50,18 @@
         "head_shot": "./resources/graphics/sounds/head_shot.ogg"
     },
     "backgrounds": {
-        "tiled_large": "./resources/graphics/backgrounds/tile_1000x1000_40_light.png",
-        "gravity_00": "./resources/graphics/backgrounds/gravity_back_00.png",
-        "gravity_02": "./resources/graphics/backgrounds/gravity_back_02.png"
-    },
-    "walls": {
-        "gravity_00": "./resources/graphics/backgrounds/walls.json",
-        "gravity_02": "./resources/graphics/backgrounds/gravity_back_02.png"
+        "tiled_large": {
+            "path": "./resources/graphics/backgrounds/tile_1000x1000_40_light.png"
+        },
+        "gravity_00": {
+            "path": "./resources/graphics/backgrounds/gravity_back_00.png",
+            "walls": "./resources/graphics/backgrounds/walls.json"
+        },
+        "gravity_02": {
+            "path": "./resources/graphics/backgrounds/gravity_back_02.png",
+            "walls":"./resources/graphics/backgrounds/gravity_back_02.png"
+        }
     },
     "fps": 60,
-    "gravity":2
+    "gravity": 2
 }
-
-

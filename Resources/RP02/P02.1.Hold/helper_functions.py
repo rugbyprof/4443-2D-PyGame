@@ -50,28 +50,35 @@ class Config:
 # ███████╗╚██████╔╝██║  ██║██████╔╝╚█████╔╝███████║╚██████╔╝██║ ╚████║
 # ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝  ╚════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
 
-def loadJson(path,filetype=None):
+def loadJsonSprite(path,filetype=None):
     """ load a json file for whatever you need!
     """
     data = None 
 
-    # STUPID ON MY PART NEEDS REDESIGN
-    # ASSUMED SPECIFIC FOLDER STRUCTURE!
-    if not os.path.isfile(path):
-        if not os.path.isdir(path):
-            print(f"Error: {path} not a valid folder!")
-            sys.exit()
 
-        if not os.path.isfile(os.path.join(path,filetype)):
-            print(f"Error: {filetype} is required to be in folder!")
-            sys.exit()
+    if not os.path.isdir(path):
+        print(f"Error: {path} not a valid folder!")
+        sys.exit()
 
-        # open the json file thats expected to be in the folder
-        # and read it in as a string
-        f = open(os.path.join(path,filetype),"r")
+    if not os.path.isfile(os.path.join(path,filetype)):
+        print(f"Error: {filetype} is required to be in folder!")
+        sys.exit()
 
-    else:
+    
+    # open the json file thats expected to be in the folder
+    # and read it in as a string
+    f = open(os.path.join(path,filetype),"r")
 
+    data = json.loads(f.read())
+
+    return data
+
+def loadJson(path):
+    """ load a json file for whatever you need!
+    """
+    data = None 
+
+    if os.path.isfile(path):
         f = open(path,"r")
 
         # make raw string into a python dictionary 
@@ -101,13 +108,14 @@ def  loadSpriteImages(path):
         print(f"Error: 'moves.json' is required to be in folder: {path}!")
         sys.exit()
 
-    # make raw string into a python dictionary 
-    sprite_info = loadJson(path,"moves.json")
 
-    print(sprite_info)
+    # make raw string into a python dictionary 
+    sprite_info = loadJsonSprite(path,"moves.json")
+
 
     # base name is used to build filename
     base_name = sprite_info['base_name']
+
     # ext as well
     ext = sprite_info['ext']
 

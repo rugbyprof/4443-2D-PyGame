@@ -144,6 +144,7 @@ class PlayerAnimation(pygame.sprite.Sprite):
 
         # This function finds the json file and loads all the 
         # image names into a list
+        # "./resources/graphics/characters/green_monster"
         self.animation_images = loadSpriteImages(self.path)
 
         # container for all the pygame images
@@ -167,14 +168,21 @@ class PlayerAnimation(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = self.center 
 
+        self.blocked = False
+
         # Initiate this sprite
         pygame.sprite.Sprite.__init__(self)
 
     def move(self):
-
+ 
         keystate = pygame.key.get_pressed()
         self.dx = 0
-        self.dy = 0
+
+        if self.gravity_on: 
+            self.dy = self.gravity_force
+        else:
+            self.dy = 0
+
         if keystate[pygame.K_UP]:
             self.dy = -1
 
@@ -189,10 +197,15 @@ class PlayerAnimation(pygame.sprite.Sprite):
 
         if keystate[pygame.K_SPACE]:
             #self.shoot()
-            pass
+            print("jump around")
+            self.jumping = True
+            self.jump()
 
         x = self.rect.centerx + (self.speed * self.dx)
-        y = self.rect.centery + (self.speed * self.dy)
+        if self.gravity_on:
+            y = self.rect.centery + (self.gravity_force * self.dy)
+        else:
+            y = self.rect.centery
 
         self.rect.center = (x,y)
 
