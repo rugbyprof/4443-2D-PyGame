@@ -237,6 +237,13 @@ class PlatFormGenerator(object):
                 startx += width
 
     def roll_dice(self,start,stop):
+        """ roll the dice! Facade pattern for random.randrange. It just reads better.
+            Params:
+                start <int> : low value
+                stop <int> : high value
+            Returns:
+                int between low and high (inclusive? can't rememember)
+        """
         return int(random.randrange(start,stop))
 
     def calculateLevelLocations(self,levels=0):
@@ -247,23 +254,46 @@ class PlatFormGenerator(object):
         """
         layers = {} ##  layers dict holds info about platform layers (height, and starting y coord)
 
-        layer = 0   ##  index for keeping track
-        currenty  = self.tallest_floor + self.floor_platform_buffer ##  just above tallest floor
+        layer = 0   #  index for keeping track of current layer
 
+        currenty  = self.tallest_floor + self.floor_platform_buffer     # just above tallest floor
+
+        # levels == 0 means generate all that will fit.
         if levels == 0:
-            ##  while there is room for another layer
+
+            # while there is room for another layer
+            # rows-2 gives a little breathing room
             while currenty < self.rows-2:
+
+                # get a random height between layer_height params
                 height = self.roll_dice(self.platform_layer_min_height,self.platform_layer_max_height)
+
+                # save that value as a dict in the layers dict using "layer" as a key
                 layers[layer] = {"y":currenty,"height":height}
+
+                # create another layer (next int key)
                 layer += 1
+
+                # if we have enough ... get out!
                 if layer >= levels:
                     break
-                currenty += height
-        else:
 
+                # move currenty up toward top of level
+                currenty += height
+
+        else: # we have a specific number of levels
+
+            # currenty is just above floor
+            # table_height - currenty divided by levels should
+            # give us as many as can fit
             sizey = (self.rows - currenty) // levels
+
+            # build our layers dict with the y location of the layer
+            # and its consistent sizey (probably should be more random).
             for layer in range(int(levels)):
                 layers[layer] = {"y":currenty,"height":sizey}
+
+                # move toward top of level
                 currenty += sizey
 
         return layers
@@ -283,69 +313,85 @@ class PlatFormGenerator(object):
         endx = self.cols                                ##  set ending x coord to entire width of level
 
 
+        # if platforms_per is zero, generate as many as will fit
         if platforms_per == 0:
+
+            # start with key = 0
+            # k is used as an index into the layers dictionary to pull out
+            # the layer info (y location, and height)
             k = 0
+
+            # step through each layer from calculateLevelLocations
             while k <= len(layers_keys)-1:
+
+                # start somewhere between x=1 and x=5 to create a platform
                 startx = self.roll_dice(1,5)
+
+                # while we haven't gone over the left of the matrix
                 while startx < self.cols:
                     
+                    # y is a random value between the 'y' (bottom of the layer) and the layers 'height'
                     y = self.roll_dice(layers[k]['y'],layers[k]['y']+layers[k]['height'])
-                    pw = self.generatePlatformChunk()
-                    if startx + pw > self.cols:
+
+                    
+                    platform_width = self.roll_dice(self.platform_min_width,self.platform_max_width)
+                    if startx + platform_width > self.cols:
                         k += 1
 
                         break
-                    self.addToMatrix('platform',pw,1,startx,y,k+1)
-                    startx = startx + pw + self.roll_dice(self.platform_min_gap,self.platform_max_gap)
+                    self.addToMatrix('platform',platform_width,1,startx,y,k+1)
+                    startx = startx + platform_width + self.roll_dice(self.platform_min_gap,self.platform_max_gap)
         else:
-            platform_count = [0 for x in range(len(layers))]
-            while sum(platform_count) < platforms_per * len(layers):
-                k = random.choice(layers_keys)
-                y = self.roll_dice(layers[k]['y'],layers[k]['y']+layers[k]['height'])
-                pw = self.generatePlatformChunk()
+            # creates a list of zeros which allows me to keep track of the platform count
+            # for each layer (using k as an index)
+            platform_count = [0 for x in range(len(layers))]    
 
-                if startx + pw > self.cols:
+            # as long as ALL the platforms created is less than how many we want per layer 
+            # times how many layers. We may get a lot on one, and a few on another, but thats
+            # what randomization is about
+            while sum(platform_count) < platforms_per * len(layers):
+                k = random.choice(layers_keys)                                          # get a random index from layers 
+                y = self.roll_dice(layers[k]['y'],layers[k]['y']+layers[k]['height'])   # generate a random height between 
+                platform_width = self.roll_dice(self.platform_min_width,self.platform_max_width)
+
+                # does our new platform go beyond right of matrix?
+                if startx + platform_width > self.cols:
+
+                    # if so, go back to colums 1-5
                     startx = self.roll_dice(1,5)
 
-                ##  while self.columnsTaken(startx,startx+pw,pw) > .5:
-                ##      print(f"k={k} {self.columnsTaken(startx,startx+pw,pw)}")
-                ##      startx += (pw // 2)
+                ##  while self.columnsTaken(startx,startx+platform_width,platform_width) > .5:
+                ##      print(f"k={k} {self.columnsTaken(startx,startx+platform_width,platform_width)}")
+                ##      startx += (platform_width // 2)
                 
-                
-                self.addToMatrix('platform',pw,1,startx,y,k+1)
+                # save it to our level matrix
+                self.addToMatrix('platform',platform_width,1,startx,y,k+1)
+
+                # increment this layers count
                 platform_count[k] += 1
-                startx = (startx + pw + self.roll_dice(self.platform_min_gap,self.platform_max_gap)) % self.cols
+
+                # get a new starting position (not sure about this)
+                startx = (startx + platform_width + self.roll_dice(self.platform_min_gap,self.platform_max_gap)) % self.cols
 
         self.printMatrix()
 
-    def columnsTaken(self,sx,ex,pw):
+    def columnsTaken(self,startx,endx,platform_width):
         """ Counts the number of columns in the matrix that are occupied. We don't 
             want to stack platforms directly on top of each other.
             Params:
-                sx <int> : starting x coord
-                ex <int> : ending x coord
-                pw <int> : platform width
+                startx <int> : starting x coord
+                endx <int> : ending x coord
+                platform_width <int> : platform width
         """
         y = self.tallest_floor + self.floor_platform_buffer
         count = 0
 
-        for i in range(sx,ex):
+        for i in range(startx,endx):
             for j in range(y,self.rows):
                 if self.matrix[j][i] != '_':
                     count += 1
 
-        return round(count / pw,2)
-
-
-        
-    def generatePlatformChunk(self):
-        """ Generates width of a platform (really rand num between two values)
-            Params:
-                None
-            Returns:
-                int
-        """     
-        return self.roll_dice(self.platform_min_width,self.platform_max_width)
+        return round(count / platform_width,2)
 
     def generateFloorChunk(self):
         """ Generates width and height between configured min's and max's
