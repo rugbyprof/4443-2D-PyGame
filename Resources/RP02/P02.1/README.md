@@ -9,7 +9,9 @@ Project overview [here](../README.md)
 - I used "Spriter" (patent pending) to split his sheet into individual frames of 80x105
 - He moves up down left and right
 
-<img src="dude.png" width="200">
+<img src="https://cs.msutexas.edu/~griffin/zcloud/zcloud-files/dude.png" width="200">
+
+
 
 ## Step 2
 
