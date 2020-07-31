@@ -3,7 +3,7 @@ P01.001
 
 Description:
 
-    Gravity...
+    Adding jump functionality
 
 """
 # Import and initialize the pygame library
@@ -87,6 +87,12 @@ class Player(pygame.sprite.Sprite):
         self.dy                 = kwargs.get('dy',0)
         self.gravity            = 5
         self.applyGravity       = True
+        self.jumping            = False
+        self.mass_orig          = 2
+        self.mass_current       = 2
+        self.velocity_orig      = 10
+        self.velocity_current   = 10
+        self.tired              =.99
 
         # see comment in the SpriteLoader class to see 
         # what got loaded
@@ -150,34 +156,53 @@ class Player(pygame.sprite.Sprite):
             notMoving = False
 
         if keystate[pygame.K_SPACE]:
-            'space'
+            self.jumping = True
+            self.tired -= .1
 
         if notMoving:
             self.setAnimation('static')
             self.dy = 0
             self.dx = 0
 
+    def jump(self):
+        """ jump jump ... jump around
+        """
+        if self.jumping: 
+            # calculate force (F). F = 1 / 2 * mass * velocity ^ 2. 
+            F = ((1/2) * self.mass_current * (self.velocity_current**2)) * self.tired
+        
+            # change in the y co-ordinate 
+            self.rect.centery -= F 
+            
+            # decreasing velocity while going up and become negative while coming down 
+            self.velocity_current = self.velocity_current-1
+            
+            # object reached its maximum height 
+            if self.velocity_current<0: 
+                
+                # negative sign is added to counter negative velocity 
+                self.mass_current =-1
 
-    def toggleGravity(self):
-        # top, left, bottom, right
-        # topleft, bottomleft, topright, bottomright
-        # midtop, midleft, midbottom, midright
-        # center, centerx, centery
-        # size, width, height
-        # w,h
+            # objected reaches its original state 
+            if self.velocity_current == -6: 
 
-        # +---------+
-        # |         |
-        # +---------+
+                # making isjump equal to false  
+                self.jumping = False
 
-        # if not self.rect.left >= 0 and self.rect.right <= self.width
-        #     self.dx *= -1
+                # setting original values to v and m 
+                self.velocity_current = self.velocity_orig
+                self.mass_current = self.mass_orig
 
-        print(f"{self.rect.bottom} - {self.height} = {self.rect.bottom - self.height}")
-
+    def checkAssertGravity(self):
         if abs(self.rect.bottom - self.height) < 5:
-            print("we control gravity")
             self.applyGravity = False
+        else:
+            self.applyGravity = True
+
+        ## Not sure if good fix 
+        if self.rect.bottom > self.height:
+            print("true dat")
+            self.rect.bottom = self.height -2
 
             
     def update(self):
@@ -196,7 +221,9 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx += self.speed * self.dx
         self.center = (self.rect.centerx, self.rect.centery)
 
-        self.toggleGravity()
+        self.checkAssertGravity()
+        if self.jumping:
+            self.jump()
     
 
 

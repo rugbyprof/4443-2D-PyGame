@@ -15,7 +15,7 @@ Project overview [here](../README.md)
 
 ## Step 2
 
-- Created a basic pygame instance that is not as vanilla as I wanted but hey, I'm on 4 hours sleep in 60 hours! But who's counting. 
+- Created a basic PyGame instance that is not as vanilla as I wanted but hey, I'm on 4 hours sleep in 60 hours! But who's counting. 
 
 ### Map Loading
 

@@ -87,6 +87,12 @@ class Player(pygame.sprite.Sprite):
         self.dy                 = kwargs.get('dy',0)
         self.gravity            = 5
         self.applyGravity       = True
+        self.velocity_current   = 15
+        self.velocity_original  = 15
+        self.mass               = 1
+        self.jumping            = False
+        self.hitbox             = (0,0,0,0)
+        self.padding            = 20
 
         # see comment in the SpriteLoader class to see 
         # what got loaded
@@ -117,12 +123,18 @@ class Player(pygame.sprite.Sprite):
         self.image = self.current_animation[self.currentFrame % len(self.current_animation)]  # get a single frame to play                                                              
         self.rect = self.image.get_rect()
         self.rect.center = self.center
+        self.adjustHitbox()
 
     def advanceFrame(self):
         self.currentFrame += 1
         self.image = self.current_animation[self.currentFrame % len(self.current_animation)]
         self.rect = self.image.get_rect()
         self.rect.center = self.center
+        self.adjustHitbox()
+
+    def adjustHitbox(self):
+        self.hitbox = (self.rect.left - self.padding, self.rect.top - self.padding, self.rect.width + self.padding*2 , self.rect.height + self.padding*2)
+
 
     def chooseAnimation(self):     
         keystate = pygame.key.get_pressed()
@@ -150,7 +162,7 @@ class Player(pygame.sprite.Sprite):
             notMoving = False
 
         if keystate[pygame.K_SPACE]:
-            'space'
+            self.jumping = True
 
         if notMoving:
             self.setAnimation('static')
@@ -166,20 +178,59 @@ class Player(pygame.sprite.Sprite):
         # size, width, height
         # w,h
 
-        # +---------+
-        # |         |
-        # +---------+
-
-        # if not self.rect.left >= 0 and self.rect.right <= self.width
-        #     self.dx *= -1
-
-        print(f"{self.rect.bottom} - {self.height} = {self.rect.bottom - self.height}")
-
         if abs(self.rect.bottom - self.height) < 5:
-            print("we control gravity")
             self.applyGravity = False
+        else:
+            if not self.jumping:
+                self.rect.bottom = self.height
 
+
+    def jump(self):
+        """ jump jump ... jump around
+        """
+        if self.jumping: 
+            # calculate force (F). F = 1 / 2 * mass * velocity ^ 2. 
+            F = ((1/2) * self.mass * (self.velocity_current**2)) * .75
+        
+            # change in the y co-ordinate 
+            self.rect.centery -= F 
             
+            # decreasing velocity while going up and become negative while coming down 
+            self.velocity_current = self.velocity_current-1
+            print(self.velocity_current)
+            
+            # object reached its maximum height 
+            if self.velocity_current < 0: 
+                
+                # negative sign is added to counter negative velocity 
+                self.mass =- 1
+
+            # objected reaches its original state 
+            if self.velocity_current == -self.velocity_original-1: 
+
+                # making isjump equal to false  
+                self.jumping = False
+
+        
+                # setting original values to v and m 
+                self.velocity_current = self.velocity_original
+                self.mass = 1
+
+    def handleCollision(self,platform):
+        
+        # if abs(self.rect.top - (platform[1] + platform[3])) < 100:
+        #     print("hitting")
+        #     self.jumping = False
+        #     self.rect.bottom = self.height
+
+        if abs(self.rect.bottom - platform[1]) < 100 and self.velocity_current < 0:
+            print("this is stupid")
+            self.jumping = False
+            self.applyGravity = False
+            self.rect.bottom = platform[1]
+        #self.rect.bottom = ??
+
+
     def update(self):
         """ Updating players state
         """
@@ -197,7 +248,29 @@ class Player(pygame.sprite.Sprite):
         self.center = (self.rect.centerx, self.rect.centery)
 
         self.toggleGravity()
+        self.jump()
     
+
+platform1 = (200,700,300,10)
+img = pygame.image.load('pink_block.png')
+block = pygame.sprite.Sprite()
+block.image = pygame.transform.scale(img, (platform1[2], platform1[3]))
+block.rect = block.image.get_rect()
+block.rect.x = platform1[0]
+block.rect.y = platform1[1]
+
+
+def checkCollidePlatform(player):
+    x1 = player.hitbox[0]
+    y1 = player.hitbox[1]
+    x2 = x1 + player.hitbox[2]
+    y2 = y1 + player.hitbox[3]
+
+    if abs(y2 - 700) < 50 and x2 > 200 and x1 < 500:
+        return platform1
+
+
+
 
 
 def main():
@@ -215,8 +288,22 @@ def main():
     all_sprites = pygame.sprite.Group()
     all_sprites.add(player)
 
+
+    floor_group = pygame.sprite.Group()
+    floor_group.add(block)
+
+
+    # block = pygame.sprite.Sprite()
+    # block.image = pygame.transform.scale(img, (800, 10))
+    # block.rect = block.image.get_rect()
+    # block.rect.x = 0
+    # block.rect.y = 790
+    # floor_group.add(block)
+
     # Run until the user asks to quit
     # Basic game loop
+
+
     running = True
     while running:
 
@@ -229,6 +316,19 @@ def main():
 
         all_sprites.update()
         all_sprites.draw(screen)
+
+        floor_group.update()
+        floor_group.draw(screen)
+
+
+        #collision = pygame.sprite.spritecollideany(player.hitbox, floor_group)
+        collision = checkCollidePlatform(player)
+
+        if collision:
+            print("colliding")
+            player.handleCollision(collision)
+           
+
 
         pygame.display.flip()
 
