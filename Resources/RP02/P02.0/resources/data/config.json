@@ -1,0 +1,15 @@
+{
+    "title": "Project 2 - Platformer",
+    "window_size": {
+        "width": 1024,
+        "height": 768
+    },
+    "map_tiles": {
+        "lush_green_map": {
+            "json": "./resources/images/lush_green_map.png",
+            "tiles": "./resources/data/lush_green_map.json"
+        }
+    },
+    "fps": 60,
+    "gravity": 2
+}

@@ -1,10 +1,19 @@
 ## P02 - Part 1
 
-# I'm still going ... 
 
-Read the overview [here](../README.md)
+Project overview [here](../README.md)
 
-## Assignment and Lecture
+## Step 1
+
+- I downloaded `dude.png` and will use him in my demonstration.
+- I used "Spriter" (patent pending) to split his sheet into individual frames of 80x105
+- He moves up down left and right
+
+<img src="dude.png" width="200">
+
+## Step 2
+
+- Created a basic pygame instance that is not as vanilla as I wanted but hey, I'm on 4 hours sleep in 60 hours! But who's counting. 
 
 ### Map Loading
 

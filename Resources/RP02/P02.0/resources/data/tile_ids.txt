@@ -1,0 +1,46 @@
+floor
+    top_left = 0
+    top_mid = 1
+    top_right = 2
+    mid_left = 3
+    mid_mid = 4
+    mid_right = 5
+    bot_left = 6
+    bot_mid = 7
+    bot_right = 8
+platform
+    left = 9
+    middle = 10
+    right = 11
+drop
+    right_top = 12
+    right_bot = 13
+    left_top = 14
+    left_bot = 15
+box
+    x = 16
+    y = 17
+    w = 18
+    h = 19
+mushroom
+    top = 20
+    bot = 21
+tree_trunk
+    x = 22
+    y = 23
+    w = 24
+    h = 25
+water
+    top = 26
+    bot = 27
+tree
+    big = 28
+    small = 29
+bushes
+    large_1 = 30
+    large_2 = 31
+    small_1 = 32
+    small_2 = 33
+signs
+    large = 34
+    arrow = 35

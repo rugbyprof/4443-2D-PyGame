@@ -1,0 +1,68 @@
+{
+    "floor": {
+        "id": 0,
+        "top_left": 1,
+        "top_mid": 2,
+        "top_right": 3,
+        "mid_left": 4,
+        "mid_mid": 5,
+        "mid_right": 6,
+        "bot_left": 7,
+        "bot_mid": 8,
+        "bot_right": 9
+    },
+    "platform": {
+        "id": 10,
+        "left": 11,
+        "middle": 12,
+        "right": 13
+    },
+    "drop": {
+        "id": 14,
+        "right_top": 15,
+        "right_bot": 16,
+        "left_top": 17,
+        "left_bot": 18
+    },
+    "box": {
+        "id": 19,
+        "x": 20,
+        "y": 21,
+        "w": 22,
+        "h": 23
+    },
+    "mushroom": {
+        "id": 24,
+        "top": 25,
+        "bot": 26
+    },
+    "tree_trunk": {
+        "id": 27,
+        "x": 28,
+        "y": 29,
+        "w": 30,
+        "h": 31
+    },
+    "water": {
+        "id": 32,
+        "top": 33,
+        "bot": 34
+    },
+    "tree": {
+        "id": 35,
+        "big": 36,
+        "small": 37
+    },
+    "bushes": {
+        "id": 38,
+        "large_1": 39,
+        "large_2": 40,
+        "small_1": 41,
+        "small_2": 42
+    },
+    "signs": {
+        "id": 43,
+        "large": 44,
+        "arrow": 45
+    }
+}
