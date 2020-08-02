@@ -1,9 +1,9 @@
 """
-P02.003
+P02.003a
 
 Description:
 
-    Basic platformer.
+    Basic platformer with minimal collision detection, some hitbox code, and debug help. 
 
     Classes: 
 
@@ -16,11 +16,20 @@ Description:
             The class pygame sprite so it can be used in collision detection.
 
         Player:
+            Typical player class that add basic functionality of player movement on screen. Up to now, I have been 
+            focusing on getting collision under complete control. Things are not as "smooth" as I would like them
+            to be. If you read this, remind me to talk about why bounding rectangles stop and the sprite image keeps
+            moving on a collision ... There is a term called "tweening" and one use of tweening is to "smooth" out 
+            graphics transitions. Maybe the sprite class has built in tweening that we don't know how to control yet.
 
         SpriteLoader
+            Does what it says. Loads a sprite from (in this case) a folder of frames. You can delete it or change it to
+            load a spritesheet.
+
         StateManager
-
-
+            My attempt to create a helper class to deal with player state, and transitions between states. It's ovekill now
+            but my thoughts are it could be helpful for future projects that are bigger and more complex. Of course, the 
+            manager would need more bells and whistles, but its good for now.
 
 
 """

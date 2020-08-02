@@ -1,9 +1,9 @@
 """
-P01.001
+P02.002a
 
 Description:
 
-    Gravity...
+    The code we played with on Thursday. Failed a lot, but I learned a lot!
 
 """
 # Import and initialize the pygame library

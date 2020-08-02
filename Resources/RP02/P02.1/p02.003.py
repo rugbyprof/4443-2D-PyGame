@@ -1,9 +1,9 @@
 """
-P01.001
+P02.003
 
 Description:
 
-    Floors.
+    Slight improvement over the code from Thursday P02.002a but not much.
 
 """
 # Import and initialize the pygame library
