@@ -76,6 +76,7 @@ class SpriteLoader(object):
             sys.exit(0)
 
         self.animation_images = loadSpriteImages(self.path['path'])
+        self.size = kwargs.get("resize",None)
 
           # container for all the pygame images
         self.sprites = {}
@@ -84,7 +85,13 @@ class SpriteLoader(object):
         for anim,imglist in self.animation_images.items():
             self.sprites[anim] = []
             for img in imglist:
-                self.sprites[anim].append(pygame.image.load(img))
+                if self.size == None:
+                    self.sprites[anim].append(pygame.image.load(img))
+                else:
+                    im = pygame.image.load(img)
+                    frame = pygame.sprite.Sprite()
+                    frame.image = pygame.transform.scale(im, (self.size[0], self.size[1]))
+                    self.sprites[anim].append(frame.image)
 
     def get_animations(self):
         return self.sprites  
@@ -113,18 +120,21 @@ class Player(pygame.sprite.Sprite):
         self.frame_rate         = kwargs.get('frame_rate',50)
         self.dx                 = kwargs.get('dx',0)
         self.dy                 = kwargs.get('dy',0)
-        self.gravity            = 5
-        self.applyGravity       = True
+        self.resize             = kwargs.get('resize',None)
+        self.gravity_current    = 5
+        self.gravity_orig       = 5
         self.jumping            = False
         self.mass_orig          = 2
         self.mass_current       = 2
-        self.velocity_orig      = 10
-        self.velocity_current   = 10
+        self.velocity_orig      = 8
+        self.velocity_current   = 8
         self.tired              =.99
+        self.current_floor      = self.height
+        self.current_state      = "grounded" #(grounded, jumping, falling??)
 
         # see comment in the SpriteLoader class to see 
         # what got loaded
-        self.sprite_sheet = SpriteLoader(path=self.path)
+        self.sprite_sheet = SpriteLoader(path=self.path,resize=self.resize)
 
         # animations = 'key':[list of pygame surface objects]
         self.animations = self.sprite_sheet.get_animations()
@@ -185,6 +195,8 @@ class Player(pygame.sprite.Sprite):
 
         if keystate[pygame.K_SPACE]:
             self.jumping = True
+            self.current_state = "jumping"
+            print("state: jumping")
 
         if notMoving:
             self.setAnimation('static')
@@ -206,32 +218,56 @@ class Player(pygame.sprite.Sprite):
             
             # object reached its maximum height 
             if self.velocity_current<0: 
-                
-                # negative sign is added to counter negative velocity 
-                self.mass_current =-1
 
-            # objected reaches its original state 
-            if self.velocity_current == -6: 
-
-                # making isjump equal to false  
+                self.current_state = "falling"
+                print("state: falling")
                 self.jumping = False
-
-                # setting original values to v and m 
                 self.velocity_current = self.velocity_orig
                 self.mass_current = self.mass_orig
+                self.gravity_current = 10
+                
+            #     # negative sign is added to counter negative velocity 
+            #     self.mass_current =-1
 
-    def checkAssertGravity(self):
-        if abs(self.rect.bottom - self.height) < 5:
-            self.applyGravity = False
-        else:
-            self.applyGravity = True
+            # # objected reaches its original state 
+            # #if self.velocity_current == self.velocity_orig:
+            # if self.velocity_current == -self.velocity_orig: 
 
-        ## Not sure if good fix 
-        if self.rect.bottom > self.height:
-            print("true dat")
-            self.rect.bottom = self.height -2
+            #     # making isjump equal to false  
+            #     self.jumping = False
 
+            #     # setting original values to v and m 
+            #     self.velocity_current = self.velocity_orig
+            #     self.mass_current = self.mass_orig
+
+
+    def applyGravity(self):
+        self.rect.centery += self.gravity_current
+
+    def movePlayer(self):
+        if self.jumping:
+            self.jump()
+        if self.current_state == 'falling':
+            self.applyGravity()
+        self.rect.centerx += self.speed * self.dx
+        self.center = (self.rect.centerx, self.rect.centery)
+
+    
+    def handleCollision(self,hits):
+        print(f"inCollisionHandler - state: {self.current_state}")
+
+        if self.current_state == "grounded":
+            self.rect.bottom = hits[0].rect.top
             
+        if self.current_state == "jumping":
+            self.rect.top = hits[0].rect.bottom
+
+        if self.current_state == "falling":
+            self.rect.bottom = hits[0].rect.top
+            self.current_floor = hits[0].rect.top
+            self.current_state = "grounded"
+            print("new state: grounded")
+
     def update(self):
         """ Updating players state
         """
@@ -242,18 +278,14 @@ class Player(pygame.sprite.Sprite):
             self.chooseAnimation()
             self.last_update = now
 
-        if self.applyGravity:
-            self.rect.centery += self.gravity
+        self.movePlayer()
+        print(f"{self.current_state}")
 
-        self.rect.centerx += self.speed * self.dx
-        self.center = (self.rect.centerx, self.rect.centery)
+        
 
-        self.checkAssertGravity()
-        if self.jumping:
-            self.jump()
+
+
     
-
-
 def main():
     pygame.init()
 
@@ -266,6 +298,7 @@ def main():
     screen = pygame.display.set_mode(config['window_size'])
 
     player = Player(path=config['sprite_sheets']['dude'],loc=(config['window_size'][0]//2,config['window_size'][0]//2))
+    player = Player(path=config['sprite_sheets']['dude'],loc=(20,700-20),resize=(42,50))
 
     all_sprites = pygame.sprite.Group()
     all_sprites.add(player)
@@ -301,11 +334,13 @@ def main():
 
         if event.type == pygame.MOUSEBUTTONUP:
             print(pygame.mouse.get_pos())
-            print(floor_group)
 
 
-        if pygame.sprite.spritecollideany(player, floor_group):
-            print("collision")
+        hits = pygame.sprite.spritecollide(player, floor_group, False)
+        if hits:
+            player.handleCollision(hits)
+        
+        pygame.draw.rect(screen,(255,0,0),player.rect)
 
         all_sprites.update()
         all_sprites.draw(screen)

@@ -1,0 +1,698 @@
+pygame 1.9.6
+Hello from the pygame community. https://www.pygame.org/contribute.html
+grounded
+grounded
+grounded
+grounded
+grounded
+grounded
+grounded
+grounded
+grounded
+grounded
+grounded
+grounded
+grounded
+grounded
+grounded
+inCollisionHandler - state: grounded
+grounded
+inCollisionHandler - state: grounded
+grounded
+inCollisionHandler - state: grounded
+grounded
+inCollisionHandler - state: grounded
+grounded
+inCollisionHandler - state: grounded
+grounded
+inCollisionHandler - state: grounded
+grounded
+inCollisionHandler - state: grounded
+grounded
+inCollisionHandler - state: grounded
+grounded
+inCollisionHandler - state: grounded
+grounded
+inCollisionHandler - state: grounded
+state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+state: falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+state: jumping
+state: falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+state: falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+state: jumping
+state: falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+state: falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+state: jumping
+state: falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+state: jumping
+state: falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+state: jumping
+state: falling
+falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+state: jumping
+state: falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+state: jumping
+jumping
+state: falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+state: jumping
+jumping
+state: falling
+falling
+falling
+falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+state: falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+state: jumping
+state: falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+state: falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+state: falling
+falling
+falling
+state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+state: falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+state: falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+state: falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+state: jumping
+state: falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+state: falling
+falling
+falling
+state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+state: jumping
+jumping
+state: falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+state: falling
+falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+inCollisionHandler - state: jumping
+jumping
+state: falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+state: falling
+falling
+falling
+state: jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+state: jumping
+state: falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+state: jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+jumping
+state: falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
+falling
