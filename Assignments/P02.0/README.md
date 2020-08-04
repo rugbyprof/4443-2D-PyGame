@@ -49,4 +49,4 @@ In my initial approach I created a couple of based classes, then extended them, 
 
 Ok. Many of those are not that hard. Menu can be text with some mouseover effects to make it look animated. Splash screen can be a ripped off logo (for now), as well as game over screen. The big deal about incorporating all of these items is that we don't just shove our code into a single file and GO! We need to `import` modules and organize our code into different files. We won't get deep into module creation but we will learn about importing and splitting up our code base into multiple files and folders.
 
-On to [Part 1](../../Resources/RP02/P02.1/README.md)
+On to [Project Requirements](./ProjectRequirements.md)

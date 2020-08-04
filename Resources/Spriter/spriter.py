@@ -83,6 +83,7 @@ def explodeSpriteSheet(**kwargs):
             xoffset <int>       : lets you skip frames in x direction
             yoffset <int>       : skip frames in y direction
     """
+
     inpath = kwargs.get("inpath",None)
     outpath = kwargs.get("outpath",None)
     name = kwargs.get("name",None)
@@ -93,6 +94,10 @@ def explodeSpriteSheet(**kwargs):
     direction = kwargs.get("direction",None)
     xoffset = kwargs.get("xoffset",0)
     yoffset = kwargs.get("yoffset",0)
+    xgap = kwargs.get("xgap",0)
+    ygap = kwargs.get("ygap",0)
+    xborder = kwargs.get("xborder",0)
+    yborder = kwargs.get("yborder",0)
 
     if not os.path.isfile(inpath):
         print(f"{inpath} is not a proper file...")
@@ -106,42 +111,49 @@ def explodeSpriteSheet(**kwargs):
     frame_height= int(frame_height)
     xoffset = int(xoffset)
     yoffset = int(yoffset)
+    xgap = int(xgap)
+    ygap = int(ygap)
+    xborder = int(xborder)
+    yborder = int(yborder)
 
     count = 1
-
+    yg = 0
+    xg = 0
     # Determine row wise or column wise traversal
-    if direction == 'yx':
-        outer = cols
-        inner = rows
-        out_size = frame_width
-        in_size = frame_height
+    if direction == 'xy':
+       
+        # Traverse sheet in the order determined from 
+        # previous if statement
+        for r in range(rows):
+            y = r * frame_height + (ygap * r) + yborder
+            for c in range(cols):
+                x = c * frame_width + (xgap * c) + xborder
+                sequence = sequence_num(count)
+
+                x += xoffset
+                y += yoffset
+
+                print(x,y)
+                frame_im = im.crop((x, y, x+frame_width, y+frame_height))
+                frame_im.save(join(outpath,name+'_'+sequence+".png"), quality=95)
+                count += 1
+
     else:
-        outer = rows
-        inner = cols
-        out_size = frame_height
-        in_size = frame_width
+        # Traverse sheet in the order determined from 
+        # previous if statement
+        for r in range(rows):
+            x = r * frame_height
+            for c in range(cols):
+                y = c * frame_width
+                sequence = sequence_num(count)
 
-    # Traverse sheet in the order determined from 
-    # previous if statement
-    for out in range(outer):
-        a = out * out_size
-        for inn in range(inner):
-            b = inn * in_size
-            sequence = sequence_num(count)
-            if direction=='yx':
-                x = a
-                y = b
-            else:
-                y = a
-                x = b
-            
-            x += xoffset
-            y += yoffset
+                x += xoffset
+                y += yoffset
 
-            # 
-            frame_im = im.crop((x, y, x+frame_width, y+frame_width))
-            frame_im.save(join(outpath,name+'_'+sequence+".png"), quality=95)
-            count += 1
+                frame_im = im.crop((x, y, x+frame_width, y+frame_height))
+                frame_im.save(join(outpath,name+'_'+sequence+".png"), quality=95)
+                count += 1
+
 
 
 def createSpriteSheet(**kwargs):
@@ -165,7 +177,7 @@ def createSpriteSheet(**kwargs):
     frame_height = kwargs.get("frame_height",None)
     direction = kwargs.get("direction",None)
     image_type = kwargs.get("image_type","png")
-
+    
     ts = time.time()
     ts = int(ts)
 

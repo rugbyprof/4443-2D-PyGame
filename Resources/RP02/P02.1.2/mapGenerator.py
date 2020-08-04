@@ -6,7 +6,7 @@ import json
 import time
 from PIL import Image
 
-from game_module import loadJson
+from helper_functions import loadJson
 
 class MapLoader(object):
     def __init__(self,**kwargs):
@@ -78,8 +78,6 @@ class MapLoader(object):
         # get unique timestamp for outfile name
         ts = time.time()
         ts = int(ts)
-
-
 
         if save_path == None:
             save_path = os.path.join('platform_sheet_'+str(ts)+'.png')
