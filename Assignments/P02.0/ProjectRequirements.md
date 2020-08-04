@@ -199,6 +199,7 @@ The platform generator is hardcoded for this [json file](./resources/maps/forest
 ```
 What you could do is generate a level, and then based on the values in your tileset, search and replace? I'm not sure, but if your game levels are like two platforms with no floor your gonna be screwed.
 
+-----
 
 ### Levels
 
@@ -209,6 +210,17 @@ That is a loaded paragraph above. Scoring points, pretty trivial. Create a sprit
 And don't forget objects that kill or injure the player ... hmmmm :thinking: should produce some kind of animated effect. The easy solution is to slow down a player, but the better solution is to slow down a player and add some animation effect showing depleted power. 
 
 Which reminds me: **power bar!!** Just kidding. But it would be cool to show a players remaining life.
+
+-----
+
+### Sounds
+
+- A non-annoying game track should play while your game is in play. This means not loud.
+- Also there should be sounds associated with events in the game:
+  - collection of coins or point objects
+  - dying
+
+-----
 
 ### Splash Screen, Menu Screen, and Game Over
 
@@ -228,6 +240,42 @@ This screen will say .... "Game Over" :roll_eyes: and show the players score. Ke
 
 ## Deliverables
 
-- To be discussed at 1230 on Tuesday.
+- Create a folder called `P02` in your `Assignments` folder.
+- Inside your `P02` folder you should have multiple files representing your game.
+- Here is a possible list of files:
+  - `menu.py`
+  - `gameover.py`
+  - `level_01.py`
+  - `level_02.py`
+  - `level_03.py`
+  - `splash.py`
+- You might have a `main.py` file the runs it all. 
+- There should be a resources folder with 
+  - a graphics folder
+  - a maps / levels folder
+- Screen Shots
+  - A screen shot of each different screen should be in your README.md
+  - Make your image sizes 300x (wide) and leave the height to maintain aspect ratio.
+  - Show each screen shot in a table with 3 shots in one row. 
+- You cannot show sound in your README but you should reference (link to) the sound files as part of your writeup.
+- A link and description to all used game files will be in your READMD.md as well as a thorough description and instructions.
+- README guide: [R03](../../Resources/R03/README.md)
 
+## Pseudo Rubric
+
+- Splash screen shows long enough to notice it.
+- Menu screen shows.
+  - The choices have some animation (rollover event)
+  - A simple "Start Game" is good enough as long as it has some animation.
+- Player moves left and right.
+- Player can jump to platforms. The jumping is "realistic" (lol) meaning not too high!
+- Player has a ability to collect points.
+- Player can move to next level (doesn't have to come back).
+- Player can die when:
+  - Hits a trap.
+  - Runs out of life.
+  - Falls into pit or off platform into infinity.
+- Sounds play associated with events.
+- 1 Trap per level is implemented. A trap kills or injures a player. A pit is not a trap.
+- more soon
 
