@@ -202,8 +202,32 @@ What you could do is generate a level, and then based on the values in your tile
 
 ### Levels
 
-Ok, so now you have a level or two and your player sprite can run around jumping from platform to platform. What do we do now? Add objects to your level in a minimum of two categories: 1) Objects that score points for the player when he/she collides with them, 2) objects that kill or injure the player. 
+Ok, so now you have a level or two and your player sprite can run around jumping from platform to platform. What do we do now? You need to add objects to each level using a minimum of two categories: 1) Objects that score points for the player when he/she collides with them, 2) objects that kill or injure the player. 
 
-That is a loaded paragraph above. Scoring points, pretty trivial. Create a sprite group and when a collision happens add to players score ... score :thinking: Wait! I need to track a score! And don't forget objects that kill or injure the player ... hmmmm :thinking: 
+That is a loaded paragraph above. Scoring points, pretty trivial. Create a sprite group and when a collision happens add to players score ... score :thinking: Wait! I need to track a score! I also need to remember my score when transitioning between levels.
+
+And don't forget objects that kill or injure the player ... hmmmm :thinking: should produce some kind of animated effect. The easy solution is to slow down a player, but the better solution is to slow down a player and add some animation effect showing depleted power. 
+
+Which reminds me: **power bar!!** Just kidding. But it would be cool to show a players remaining life.
+
+### Splash Screen, Menu Screen, and Game Over
+
+**Splash Screen**
+
+This screen shows when your game is starting. It should show a logo, and the name of your game. A loading bar would be cool, but is not mandatory.
+
+**Menu Screen**
+
+With respect to this being the last week, and little time to be frivolous, I will say that the "menu" screen
+will simply have a button OR animated "start game" text box. When I say animated, I simply mean that when the mouse hovers over it, it changes its color or drops a shadow, or something. 
+
+**Game Over**
+
+This screen will say .... "Game Over" :roll_eyes: and show the players score. Keeping a high score between games would be a cool extra credit addition.
+
+
+## Deliverables
+
+- To be discussed at 1230 on Tuesday.
 
 
