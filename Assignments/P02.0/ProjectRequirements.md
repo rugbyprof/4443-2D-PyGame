@@ -94,13 +94,10 @@ It's also easier to parse a file where each tile is 1-4 digits and consistent! P
 
 So, using our numbering scheme, we can see below that `Block 1` is a minimal arrangement of tiles that creates a usable structure, and `Block 2` shows that a structure of basically any size can be made using those same tile references.
 
-<p align="center">
-
 |  Block 1   |   Block 2  |
 |:----------:|:------------:|
 | <img src="https://cs.msutexas.edu/~griffin/zcloud/zcloud-files/tile_group_example_4403.png" width="300"> | <img src="https://cs.msutexas.edu/~griffin/zcloud/zcloud-files/tiled_group_example_2_4443.png" width="300"> |
 
-</p>
 
 ### Tile Sets in Map Definitions
 
