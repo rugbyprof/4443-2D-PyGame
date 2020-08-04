@@ -40,6 +40,16 @@ What your game will need:
 
 We already have a sprite with animation, so lets discuss how to create our levels.
 
+### Player
+
+You will have a player that can move right, left, and jump. 
+
+<img src="https://cs.msutexas.edu/~griffin/zcloud/zcloud-files/dude.png" width="100">
+
+Additional animations should be applied as the situation dictates. For example, I downloaded a Mario sprite sheet [HERE](HelperFiles/Graphics/mario_frames/) and there is a [json file](HelperFiles/Graphics/mario_frames/moves.json) in that same folder defining all the different animations I created from the [big sprite sheet](HelperFiles/Graphics/mario.png). I created many additional animations in anticipation of using them in my game: jumps, long jumps, hammer blows, and even a simple frame to show him dropping off a platform:
+
+<img src="./HelperFiles/Graphics/mario_frames/mario_016.png" width="75">
+
 ### Creating a Level
 
 To create a game level, you need:
