@@ -334,8 +334,6 @@ class Player(pygame.sprite.Sprite):
         
         self.animation_loops = int(self.current_frame/len(self.current_animation))
 
-        print(self.animation_loops)
-
         index = self.current_frame % len(self.current_animation)
         self.image = self.current_animation[index]
         self.rect = self.image.get_rect()
@@ -360,49 +358,49 @@ class Player(pygame.sprite.Sprite):
         # get key pressed :)
         keystate = pygame.key.get_pressed()
 
-        # assume no key pressed
-        notMoving = True
+        notMoving = False
+
+        if sum(keystate) == 0:
+            # assume no key pressed
+            notMoving = True
 
         if keystate[pygame.K_LEFT]:
             self.player_direction='left'
             self.setAnimation('walk_01')
             self.dx = -1
-            notMoving = False
 
         if keystate[pygame.K_RIGHT]:
             self.player_direction='right'
             self.setAnimation('walk_01')
             self.dx = 1
-            notMoving = False
 
-        if keystate[pygame.K_x]:
-            self.setAnimation('bball_hammer')
-            notMoving = False
+        # if keystate[pygame.K_x]:
+        #     self.setAnimation('bball_hammer')
+        #     notMoving = False
 
-        if keystate[pygame.K_SPACE]:
-            self.setAnimation('jumping_up')
-            self.last_update = now
-            self.jumping = True
-            self.state.addActiveState("jumping")
-            notMoving = False
-            debug("state: jumping",10)
-
+        # if keystate[pygame.K_SPACE]:
+        #     self.setAnimation('jumping_up')
+        #     self.last_update = now
+        #     self.jumping = True
+        #     self.state.addActiveState("jumping")
+        #     notMoving = False
+        #     debug("state: jumping",10)
 
 
-        if self.state.isActiveState("jumping"):
-            self.setAnimation('jumping_up')
-            notMoving = False
 
-        if self.state.isActiveState("falling"):
-            self.setAnimation('dropping')
-            notMoving = False
+        # if self.state.isActiveState("jumping"):
+        #     self.setAnimation('jumping_up')
+        #     notMoving = False
+
+        # if self.state.isActiveState("falling"):
+        #     self.setAnimation('dropping')
+        #     notMoving = False
 
         if self.state.isActiveState("grounded"):
             self.setAnimation('walk_01')
             
         if notMoving:
             self.setAnimation('standing')
-            debug("not moving",2)
             self.dy = 0
             self.dx = 0
 
