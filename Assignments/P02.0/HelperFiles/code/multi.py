@@ -17,9 +17,10 @@ config = {
     'title' :'P02.001 ',
     'window_size' : (1000,500),
     'sprite_sheets':{
-        'mario':{'path':'./resources/graphics/mario_frames'}
+        'mario':{'path':'../resources/mario_frames'}
     },
-    'tiles_path':'./resources/maps/forest_tileset/Tiles_20',
+    'tiles_path':'../resources/maps/forest_tileset/Tiles_20',
+    'levels_path':"../resources/levels",
     'tile_size':20,
     'debug': True,
     'debug_level':20
@@ -275,9 +276,9 @@ class StateMananger(Borg):
         self.index = -1
         self.states = [
             GameMenu(),
-            LevelLoader(levels_path="./resources/levels",tiles_path=config['tiles_path'],level_name="level_01",tile_size=(20,20)),
-            LevelLoader(levels_path="./resources/levels",tiles_path=config['tiles_path'],level_name="level_02",tile_size=(20,20)),
-            LevelLoader(levels_path="./resources/levels",tiles_path=config['tiles_path'],level_name="level_03",tile_size=(20,20))
+            LevelLoader(levels_path=config['levels_path'],tiles_path=config['tiles_path'],level_name="level_01",tile_size=(20,20)),
+            LevelLoader(levels_path=config['levels_path'],tiles_path=config['tiles_path'],level_name="level_02",tile_size=(20,20)),
+            LevelLoader(levels_path=config['levels_path'],tiles_path=config['tiles_path'],level_name="level_03",tile_size=(20,20))
         ]
         self.go_to()
 

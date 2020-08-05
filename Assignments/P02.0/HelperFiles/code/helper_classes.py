@@ -33,7 +33,7 @@ class Colors:
         
     @staticmethod
     def RGB(name):
-        f = open("./resources/data/colors.json","r")
+        f = open("../resources/data/colors.json","r")
         data = json.loads(f.read())
         if name in data:
             return data[name]['rgb']
@@ -41,7 +41,7 @@ class Colors:
         return None
     @staticmethod
     def HEX(name):
-        f = open("./resources/data/colors.json","r")
+        f = open("../resources/data/colors.json","r")
         data = json.loads(f.read())
         if name in data:
             return data[name]['hex']
