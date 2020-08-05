@@ -453,9 +453,9 @@ class PlatFormGenerator(object):
                     if j == startx:
                         self.matrix[i][j] = '13'
                     elif j == endx-1:
-                        self.matrix[i][j] = '14'
-                    else:
                         self.matrix[i][j] = '15'
+                    else:
+                        self.matrix[i][j] = '14'
 
         elif block_type == 'floor':
             # we do floor (dirt) tiles

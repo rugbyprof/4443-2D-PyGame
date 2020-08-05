@@ -53,6 +53,8 @@ import os
 import sys
 import json
 import pprint
+import glob
+import more_itertools 
 
 from helper_functions import loadSpriteImages
 from helper_functions import loadJson
@@ -60,25 +62,25 @@ from helper_functions import loadJson
 # Our typical config, but a lot smaller right now.
 config = {
     'title' :'P02.001 ',
-    'window_size' : (800,800),
+    'window_size' : (1000,500),
     'sprite_sheets':{
         'mario':{'path':'./resources/graphics/mario_frames'}
     },
     'pink_block':"./resources/graphics/pink_block.png",
     'tile_size':20,
     'debug': True,
-    'debug_level':5
+    'debug_level':20
     }
 
 # Dictionary of platforms, soon to be an 
 # imported file with tile information.
-platforms = {
-    200:[200,600],
-    300:[100,400],
-    400:[400,800],
-    600:[50,600],
-    799:[0,800]
-}
+# platforms = {
+#     200:[200,600],
+#     300:[100,400],
+#     400:[400,800],
+#     600:[50,600],
+#     799:[0,800]
+# }
 
 def debug(statement,level=0):
     """ An easy way to globally turn on and off debug statements. Just change config['debug'] to False
@@ -378,15 +380,13 @@ class Player(pygame.sprite.Sprite):
         #     self.setAnimation('bball_hammer')
         #     notMoving = False
 
-        # if keystate[pygame.K_SPACE]:
-        #     self.setAnimation('jumping_up')
-        #     self.last_update = now
-        #     self.jumping = True
-        #     self.state.addActiveState("jumping")
-        #     notMoving = False
-        #     debug("state: jumping",10)
-
-
+        if keystate[pygame.K_SPACE]:
+            self.setAnimation('jumping_up')
+            self.last_update = now
+            self.jumping = True
+            self.state.addActiveState("jumping")
+            notMoving = False
+            debug("state: jumping",10)
 
         # if self.state.isActiveState("jumping"):
         #     self.setAnimation('jumping_up')
@@ -425,6 +425,7 @@ class Player(pygame.sprite.Sprite):
         # other stuff ... 
         if self.state.isActiveState("falling"):
             self.adjustRect('bottom',platform.rect.top) # adjust rect and hitbox
+            self.state.deactivateState("falling")
             self.state.addActiveState("grounded")
             self.current_platform = platform
             debug("new state: grounded",10)
@@ -448,6 +449,7 @@ class Player(pygame.sprite.Sprite):
             # object reached its maximum height 
             if self.velocity_current<0: 
                 self.state.addActiveState("falling")
+                self.state.deactivateState("jumping")
                 debug("state: falling",10)
                 self.jumping = False
                 self.velocity_current = self.velocity_orig
@@ -780,13 +782,190 @@ class StateManager(object):
         # make sure its a valid state name 
         if state in self.states:
             self.prev = self.active_states[-1]      # active copied to prev
-            self.active_states.append(state)        # new active state
+            if not state in self.active_states:
+                self.active_states.append(state)        # new active state
             self.addHistory()                       # add these to the history
         else:
             print(f"Error: addActiveState({state}) is not a valid state!")
             print(f"Exiting!")
             sys.exit()
-    
+
+class LevelLoader(object):
+    def __init__(self,**kwargs):
+        
+
+        self.tiles_path = kwargs.get('tiles_path',None)
+        if self.tiles_path == None:
+            print(f"Error: No path to the tile set!!")
+            sys.exit()
+
+        if not os.path.isdir(self.tiles_path):
+            print(f"Error: {self.tiles_path} is not a directory!")
+            sys.exit()
+
+        self.levels_path= kwargs.get('levels_path',None)
+        self.level_name = kwargs.get('level_name',None)
+        self.tile_size = kwargs.get('tile_size',None)
+
+        if self.tile_size != None:
+            if type(self.tile_size) == int:
+                self.tile_size = (self.tile_size,self.tile_size)
+
+        self.tiles = []
+        self.tile_sprites = []
+
+        if self.tiles_path != None:
+            self.loadTiles()
+
+        if self.level_name != None:
+            self.loadLevel()
+
+        
+    def loadTiles(self):
+        self.tiles = glob.glob(os.path.join(self.tiles_path,"*.png"))
+        self.tiles.sort()
+
+
+    def getSurfaceCoords(self,x,y):
+        pass
+
+    def loadLevel(self,level_name=None,levels_path=None):
+        if levels_path is None and self.levels_path is None:
+            print(f"Error: Need a directory to read levels from!")
+            sys.exit()
+
+        if levels_path != None:
+            self.levels_path = levels_path
+
+        with open(os.path.join(self.levels_path,self.level_name),"r") as f:
+            data = f.readlines()
+
+        row = 0
+        col = 0
+        for line in data:
+            line = line.strip()
+            for code in more_itertools.chunked(line, 2):
+                tilenum = code[0]+code[1]
+                if tilenum != "..":
+                    tile_loc = os.path.join(self.tiles_path,tilenum+".png")
+                    print(tile_loc)
+                    if os.path.isfile(tile_loc):
+                        img = pygame.image.load(tile_loc)
+                        tile = pygame.sprite.Sprite()
+                        tile.image = pygame.transform.scale(img, (self.tile_size[0], self.tile_size[0]))
+                        tile.rect = tile.image.get_rect()
+                        print(row,col)
+                        tile.rect.x = col * self.tile_size[0]
+                        tile.rect.y = row * self.tile_size[1]
+                        self.tile_sprites.append(tile)
+                col += 1
+            col = 0
+            row += 1
+
+    def getTileSprites(self):
+        return self.tile_sprites
+
+
+#https://gist.github.com/programmingpixels/27b7f8f59ec53b401183c68f4be1634b#file-step4-py
+
+def create_surface_with_text(text, font_size, text_rgb, bg_rgb):
+    """ Returns surface with text written on """
+    font = pygame.freetype.SysFont("Courier", font_size, bold=True)
+    surface, _ = font.render(text=text, fgcolor=text_rgb, bgcolor=bg_rgb)
+    return surface.convert_alpha()
+
+class UIElement(pygame.sprite.Sprite):
+    """ An user interface element that can be added to a surface """
+
+    def __init__(self, center_position, text, font_size, bg_rgb, text_rgb, action=None):
+        """
+        Args:
+            center_position - tuple (x, y)
+            text - string of text to write
+            font_size - int
+            bg_rgb (background colour) - tuple (r, g, b)
+            text_rgb (text colour) - tuple (r, g, b)
+            action - the gamestate change associated with this button
+        """
+        self.mouse_over = False
+
+        default_image = create_surface_with_text(
+            text=text, font_size=font_size, text_rgb=text_rgb, bg_rgb=bg_rgb
+        )
+
+        highlighted_image = create_surface_with_text(
+            text=text, font_size=font_size * 1.2, text_rgb=text_rgb, bg_rgb=bg_rgb
+        )
+
+        self.images = [default_image, highlighted_image]
+
+        self.rects = [
+            default_image.get_rect(center=center_position),
+            highlighted_image.get_rect(center=center_position),
+        ]
+
+        self.action = action
+
+        super().__init__()
+
+    @property
+    def image(self):
+        return self.images[1] if self.mouse_over else self.images[0]
+
+    @property
+    def rect(self):
+        return self.rects[1] if self.mouse_over else self.rects[0]
+
+    def update(self, mouse_pos, mouse_up):
+        """ Updates the mouse_over variable and returns the button's
+            action value when clicked.
+        """
+        if self.rect.collidepoint(mouse_pos):
+            self.mouse_over = True
+            if mouse_up:
+                return self.action
+        else:
+            self.mouse_over = False
+
+    def draw(self, surface):
+        """ Draws element onto a surface """
+        surface.blit(self.image, self.rect)
+
+def title_screen(screen):
+    start_btn = UIElement(
+        center_position=(400, 400),
+        font_size=30,
+        bg_rgb=BLUE,
+        text_rgb=WHITE,
+        text="Start",
+        action=GameState.NEWGAME,
+    )
+    quit_btn = UIElement(
+        center_position=(400, 500),
+        font_size=30,
+        bg_rgb=BLUE,
+        text_rgb=WHITE,
+        text="Quit",
+        action=GameState.QUIT,
+    )
+
+    buttons = [start_btn, quit_btn]
+
+    while True:
+        mouse_up = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
+        screen.fill(BLUE)
+
+        for button in buttons:
+            ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
+            if ui_action is not None:
+                return ui_action
+            button.draw(screen)
+
+        pygame.display.flip()
+
 ###############################################################################
 #   _ __ ___   __ _(_)_ __  
 #  | '_ ` _ \ / _` | | '_ \ 
@@ -802,35 +981,21 @@ def main():
     # Set up the drawing window
     screen = pygame.display.set_mode(config['window_size'])
 
-    # Create our player putting him in bottom left of screen and resizing his sprite
-    # from 80x105 to 42x50
-    # If you want to maintain aspect ratio when resizing sprites, just divide one side
-    # into the other, then use that ratio to create your new size. 
-    # e.g. 80/105 = .76 so I multiplied the height (Y value) I wanted: 50 by .76 to get my (X value) 38
-    player = Player(path=config['sprite_sheets']['mario'],loc=(30,800-25),resize=(50,62))
+    player = Player(path=config['sprite_sheets']['mario'],loc=(30,500-25),resize=(50,62))
 
     # Sprite groups is the easiest way to update and draw many sprites
     all_sprites = pygame.sprite.Group()
+    tiles_group = pygame.sprite.Group()
 
     # Add player to all sprites
     all_sprites.add(player)
 
-    # Floor group will be used to test for collisions
-    # between player and platforms
-    floor_group = pygame.sprite.Group()
+    levels = LevelLoader(levels_path="./resources/levels",tiles_path="./resources/maps/forest_clean/Tiles_20",level_name="level_01",tile_size=(20,20))
+    tile_sprites = levels.getTileSprites()
 
-    for row,cols in platforms.items():
-        width = cols[1] - cols[0]
-        startx = cols[0]
-        height = config['tile_size']
-        img = pygame.image.load(config['pink_block'])
-        block = pygame.sprite.Sprite()
-        block.image = pygame.transform.scale(img, (width, height))
-        block.rect = block.image.get_rect()
-        block.rect.x = startx
-        block.rect.y = row
-        floor_group.add(block)  # add to floor group for collisions
-        all_sprites.add(block)  # add to all_sprites for drawing and updating 
+    for tile in tile_sprites:
+        tiles_group.add(tile)
+        all_sprites.add(tile)
 
 
     # Run until the user asks to quit
@@ -849,8 +1014,8 @@ def main():
         if event.type == pygame.MOUSEBUTTONUP:
             debug(pygame.mouse.get_pos(),10)
 
-        # check for collisions using our floor_group and players hitbox
-        platform_collision = pygame.sprite.spritecollide(player.hitBox, floor_group, False)
+        # check for collisions using our tiles_group and players hitbox
+        platform_collision = pygame.sprite.spritecollide(player.hitBox, tiles_group, False)
         
         # if player collides with platform, tell the player class
         if platform_collision:
