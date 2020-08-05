@@ -3,51 +3,11 @@ P02.004
 
 Description:
 
-    Currently we have a sprite loader that helps with our player class. We have code that helps us control our player and 
-    move around some primitively loaded platforms. The collision detection is not amazing, but we are using built in 
-    pygame methods, so I don't know how to reach in and improve what we have. Having said that, it works ok and we should
-    be good to go.
-    
-    The next steps are to load a "game world" or a platform level and to do that we need:
-
-        - A tileset
-        - Some objects
-        - A background
-        - A map 
-        - A class to load everything into our game.
-
-
-    In `resources` there is a map_data folder. This folder contains a background image, some object images and a tileset that can be use to build a level. 
-    I created many tileset sizes from the original 128x128 tiles. I used `imagemagick` wich allows linux users to run commands from a terminal. I know
-    windows has similar functionality, but I'm not familiar with how to invoke it. An Imagemagick command looks like: `convert -resize 32x32 infile outfile`
-    and then you loop over a directory of images to resize and save in a new folder. Anyway!
-
-    I previously posted a bit about `platformGenerator.py` and how it can generate a basic random layout for you. I definitely needs tweeking but given a
-    tileset that it would consistently use, it definetely could auto generate usable layouts. For us however this will take too much time. I will suggest
-    that you use it to create a few interesting layouts, and then fix by hand any levels it generates. How do we do this? Look at the example output below:
-
-                                ___________33333______________
-                                ______________________________
-                                __22222222_________22222______
-                                ______________________________
-                                _1111111_______1111______1111_
-                                ______________________________
-                                __________0000000_____00000000
-                                __________0000000_____00000000
-                                __________0000000_____00000000
-                                00000_____000000000___00000000
-
-    The zeros are ground. The empty spaces between the zeros are pits and the 1's 2's and 3's are platforms. Look into the map data folder and find the tiles
-    folder. As a simple example, the tiles 13.png, 14.png and 15.png are the three necessary tiles to create a platform. So lets substitute this map with those
-    values. If you look at 
-
-    Lets 
-
-
 
 """
 # Import and initialize the pygame library
 import pygame
+import pygame.freetype
 import random
 import os
 import sys
@@ -58,6 +18,7 @@ import more_itertools
 
 from helper_functions import loadSpriteImages
 from helper_functions import loadJson
+from helper_classes import Colors
 
 # Our typical config, but a lot smaller right now.
 config = {
@@ -72,15 +33,6 @@ config = {
     'debug_level':20
     }
 
-# Dictionary of platforms, soon to be an 
-# imported file with tile information.
-# platforms = {
-#     200:[200,600],
-#     300:[100,400],
-#     400:[400,800],
-#     600:[50,600],
-#     799:[0,800]
-# }
 
 def debug(statement,level=0):
     """ An easy way to globally turn on and off debug statements. Just change config['debug'] to False
@@ -223,6 +175,30 @@ class HitBox(pygame.sprite.Sprite):
         self.buffer = buffer
         self.box = self.adjustHitBox()
 
+class PlayerAction(object):
+    def __init__(self):
+        self.actions = {}
+        self.actions['walking'] = False
+        self.actions['jumping']  = False
+        self.actions['standing']  = False
+        self.actions['falling']  = False
+        self.actions['grounded']  = False
+
+    def clear(self):
+        for action in self.actions:
+            self.actions[action] = False
+    
+    def setAction(self,action):
+        self.clear()
+        self.actions[action] = True
+
+    def getAction(self):
+        for action in self.actions:
+            if self.actions[action]:
+                return action
+        return None
+
+
 ###############################################################################
 #   ____  _                       
 #  |  _ \| | __ _ _   _  ___ _ __ 
@@ -288,7 +264,6 @@ class Player(pygame.sprite.Sprite):
         self.velocity_current   = 8
         self.tired              =.99
         self.current_platform   = None
-        self.state = StateManager(states=["grounded","jumping", "falling","striking","moving"],active="grounded")
         self.hitBox = None
         
 
@@ -306,6 +281,10 @@ class Player(pygame.sprite.Sprite):
         self.current_animation_name = 'standing'
         self.current_frame = 0
         self.animation_loops = 0    # how many times did animation play
+
+        self.action = PlayerAction()
+
+        self.action.setAction('standing')
 
         # hmmm whats this do?
         self.setAnimation('standing')
@@ -360,21 +339,21 @@ class Player(pygame.sprite.Sprite):
         # get key pressed :)
         keystate = pygame.key.get_pressed()
 
-        notMoving = False
 
-        if sum(keystate) == 0:
-            # assume no key pressed
-            notMoving = True
+        if sum(keystate) == 0 and not self.action.getAction() in ['falling','jumping']:
+            self.action.setAction('standing')
 
         if keystate[pygame.K_LEFT]:
             self.player_direction='left'
             self.setAnimation('walk_01')
             self.dx = -1
+            self.action.setAction('walking')
 
         if keystate[pygame.K_RIGHT]:
             self.player_direction='right'
             self.setAnimation('walk_01')
             self.dx = 1
+            self.action.setAction('walking')
 
         # if keystate[pygame.K_x]:
         #     self.setAnimation('bball_hammer')
@@ -384,23 +363,24 @@ class Player(pygame.sprite.Sprite):
             self.setAnimation('jumping_up')
             self.last_update = now
             self.jumping = True
-            self.state.addActiveState("jumping")
-            notMoving = False
+            self.action.setAction('jumping')
             debug("state: jumping",10)
 
-        # if self.state.isActiveState("jumping"):
-        #     self.setAnimation('jumping_up')
-        #     notMoving = False
+        if self.action.getAction() == 'jumping':
+            self.setAnimation('jumping_up')
+            debug("jumping",10)
 
-        # if self.state.isActiveState("falling"):
-        #     self.setAnimation('dropping')
-        #     notMoving = False
+        if self.action.getAction() == 'falling':
+            self.setAnimation('dropping')
+            debug("dropping",10)
 
-        if self.state.isActiveState("grounded"):
+        if self.action.getAction() == 'walking':
             self.setAnimation('walk_01')
+            debug("walking",10)
             
-        if notMoving:
+        if self.action.getAction() in ['standing']:
             self.setAnimation('standing')
+            debug("standing",10)
             self.dy = 0
             self.dx = 0
 
@@ -408,27 +388,27 @@ class Player(pygame.sprite.Sprite):
     def handlePlatformCollision(self,platform):
         """ Did we contact a platform?
             Parameters:
-                platform <pygame.sprite> : a platorm sprite with a rectangle info
+                platform <pygame.sprite> : a platform sprite with a rectangle info
         """
 
         # If were on some ground, adjust our feet to be at proper height
-        if self.state.isActiveState("grounded"):
+        if self.action.getAction() in ['walking','standing']:
             self.adjustRect('bottom',platform.rect.top)
 
         # If we are jumping, adjust our top to the platforms bottom because
         # we hit the bottom of a platform! Don't go through it!
-        if self.state.isActiveState("jumping"):
+        if self.action.getAction() in ['jumping']:
             self.adjustRect('top',platform.rect.bottom)
+
 
         # If we are falling put our feet on the platform we hit.
         # set our new floor to the current platform and some
         # other stuff ... 
-        if self.state.isActiveState("falling"):
+        if self.action.getAction() in ['falling']:
             self.adjustRect('bottom',platform.rect.top) # adjust rect and hitbox
-            self.state.deactivateState("falling")
-            self.state.addActiveState("grounded")
             self.current_platform = platform
-            debug("new state: grounded",10)
+            self.action.setAction('walking')
+            debug("falling to standing",10)
 
     def jump(self):
         """ jump jump ... jump around
@@ -448,8 +428,7 @@ class Player(pygame.sprite.Sprite):
             
             # object reached its maximum height 
             if self.velocity_current<0: 
-                self.state.addActiveState("falling")
-                self.state.deactivateState("jumping")
+                self.action.setAction('falling')
                 debug("state: falling",10)
                 self.jumping = False
                 self.velocity_current = self.velocity_orig
@@ -467,7 +446,7 @@ class Player(pygame.sprite.Sprite):
             self.jump()
 
         # if player falling, then apply gravity to move player down
-        if self.state.isActiveState('falling'):
+        if self.action.getAction() == 'falling' or not self.current_platform:
             self.applyGravity()
 
         # move player as long as its on the world
@@ -487,14 +466,14 @@ class Player(pygame.sprite.Sprite):
 
         # Our current "floor" or "ground"
         if self.current_platform:
-
+            debug("current platform",10)
             # if we go off the left edge ... fall
             if self.rect.right < self.current_platform.rect.left:
-                self.state.addActiveState("falling")
+                self.action.setAction('falling')
 
             # same on other side
             if self.rect.left > self.current_platform.rect.right:
-                self.state.addActiveState("falling")
+                self.action.setAction('falling')
 
 
     def setAnimation(self,key):
@@ -532,7 +511,6 @@ class Player(pygame.sprite.Sprite):
             self.last_update = now
 
         self.movePlayer()
-        debug(f"{self.state.getActiveState()}",10)
 
 ###############################################################################
 #   ____             _ _       _                    _           
@@ -636,159 +614,6 @@ class SpriteLoader(object):
         """
         return self.sprites  
 
-###############################################################################
-#   ____  _        _       __  __                                   
-#  / ___|| |_ __ _| |_ ___|  \/  | __ _ _ __   __ _  __ _  ___ _ __ 
-#  \___ \| __/ _` | __/ _ \ |\/| |/ _` | '_ \ / _` |/ _` |/ _ \ '__|
-#   ___) | || (_| | ||  __/ |  | | (_| | | | | (_| | (_| |  __/ |   
-#  |____/ \__\__,_|\__\___|_|  |_|\__,_|_| |_|\__,_|\__, |\___|_|   
-#                                                   |___/         
-###############################################################################
-class StateManager(object):
-    """ StateManager allows you to register a state (falling, jumping, static, whatever) and then switch between 
-        them to help control behaviors. 
-        
-        This may be overkill, but I thought in the big picture it could help with game decisions. For example:
-            CurrentState: Falling 
-            Event: player pushes the left arrow
-            Result: don't update postion, player is ... falling
-
-        I know we had some semblence of this in our player class, but again I may have over engineered this one. 
-        BUT! Debugging has been harder than we are used to. I also wrote this class as a type of "debug" helper. 
-        It logs every state change with the pygame clock. In real life, we could enhance this to find bugs in our
-        code! 
-
-        Also, it reads better in the player class!
-
-        Methods:
-            addHistory()
-                Adds last state change to history
-            dumpHistory(filename=None)
-                Prints history to a file
-            getActiveState()
-                Returns the current active state
-            isActiveState(state)
-                Tests if "state" is the active one
-            registerState(state)
-                Adds a new state to valid states
-            addActiveState(state)
-                Adds a state to the active list.
-    """
-    def __init__(self,**kwargs):
-        """ 
-            Params:
-                states <list> : a list of states to add
-                active <string> : initialize object to this active state
-        """
-
-        states = kwargs.get('states',[])
-        active = kwargs.get('active',None)
-
-        self.states = states
-        
-        self.active_states = []
-
-        self.active_states.append(active)
-        self.prev = None
-        self.history = []
-        self.maxHistory = 100000
-
-
-    def addHistory(self):
-        """ adds last state change to history
-            Params:
-                None
-            Returns:
-                None
-        """
-        if len(self.history) > self.maxHistory:
-            del self.history[0]
-        self.history.append((pygame.time.get_ticks(),self.active_states))
-
-    def clearActiveStates(self):
-        """ adds last state change to history
-            Params:
-                None
-            Returns:
-                None
-        """
-        self.active_states = []
-        self.history.append((pygame.time.get_ticks(),self.active_states))
-
-
-    def dumpHistory(self,filename=None):
-        """ writes history to a file
-            Params:
-                filename <string> : file to write to
-            Returns:
-                None
-        """
-        if not filename:
-            filename = 'history_log.log'
-
-        with open(filename,'w') as h:
-            for item in self.history:
-                h.write(f"Ticks: {item[0]} , State: {item[1]}\n")
-
-
-    def getActiveState(self):
-        """ returns current active state
-            Params:
-                None
-            Returns:
-                string
-        """
-        return self.active_states
-
-
-    def isActiveState(self,state):
-        """ is state the active one?
-            Params:
-                state <string> : state name
-            Returns:
-                bool
-        """
-        return state in self.active_states
-
-
-    def registerState(self,state):
-        """ Add a new state to the state manager
-            Params:
-                state <string> : name of state to add
-            Returns:
-                None
-        """
-        self.states.append(state)
-
-    def deactivateState(self,state):
-        """ removes a state from active state list
-            Params:
-                state <string> : state to remove
-            Returns:
-                None
-        """
-        if state in self.active_states:
-            self.active_states.remove(state)
-            self.addHistory()
-
-
-    def addActiveState(self,state):
-        """ sets the active state
-            Params:
-                state <string> : new active state
-            Returns:
-                None
-        """
-        # make sure its a valid state name 
-        if state in self.states:
-            self.prev = self.active_states[-1]      # active copied to prev
-            if not state in self.active_states:
-                self.active_states.append(state)        # new active state
-            self.addHistory()                       # add these to the history
-        else:
-            print(f"Error: addActiveState({state}) is not a valid state!")
-            print(f"Exiting!")
-            sys.exit()
 
 class LevelLoader(object):
     def __init__(self,**kwargs):
@@ -931,22 +756,36 @@ class UIElement(pygame.sprite.Sprite):
         """ Draws element onto a surface """
         surface.blit(self.image, self.rect)
 
+class Scene(object):
+    def __init__(self):
+        pass
+
+    def render(self, screen):
+        raise NotImplementedError
+
+    def update(self):
+        raise NotImplementedError
+
+    def handle_events(self, events):
+        raise NotImplementedError
+
 def title_screen(screen):
     start_btn = UIElement(
-        center_position=(400, 400),
-        font_size=30,
-        bg_rgb=BLUE,
-        text_rgb=WHITE,
-        text="Start",
-        action=GameState.NEWGAME,
+        center_position =(400, 400),
+        font_size       =30,
+        bg_rgb          =Colors.RGB('mediumorchid'),
+        text_rgb        =Colors.RGB('white'),
+        text            ="Start",
+        action          ="newGame"
     )
+
     quit_btn = UIElement(
-        center_position=(400, 500),
-        font_size=30,
-        bg_rgb=BLUE,
-        text_rgb=WHITE,
-        text="Quit",
-        action=GameState.QUIT,
+        center_position =   (400, 500),
+        font_size       =   30,
+        bg_rgb          =   Colors.RGB('mediumorchid'),
+        text_rgb        =   Colors.RGB('white'),
+        text            =   "Quit",
+        action          =   "quitGame"
     )
 
     buttons = [start_btn, quit_btn]
@@ -956,7 +795,7 @@ def title_screen(screen):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
-        screen.fill(BLUE)
+        screen.fill(Colors.RGB("navy"))
 
         for button in buttons:
             ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
@@ -990,13 +829,18 @@ def main():
     # Add player to all sprites
     all_sprites.add(player)
 
-    levels = LevelLoader(levels_path="./resources/levels",tiles_path="./resources/maps/forest_clean/Tiles_20",level_name="level_01",tile_size=(20,20))
-    tile_sprites = levels.getTileSprites()
+    levels = []
+    levels.append(LevelLoader(levels_path="./resources/levels",tiles_path="./resources/maps/forest_clean/Tiles_20",level_name="level_01",tile_size=(20,20)))
+    levels.append(LevelLoader(levels_path="./resources/levels",tiles_path="./resources/maps/forest_clean/Tiles_20",level_name="level_02",tile_size=(20,20)))
+    levels.append(LevelLoader(levels_path="./resources/levels",tiles_path="./resources/maps/forest_clean/Tiles_20",level_name="level_03",tile_size=(20,20)))
+
+    tile_sprites = levels[1].getTileSprites()
 
     for tile in tile_sprites:
         tiles_group.add(tile)
         all_sprites.add(tile)
 
+    title = title_screen(screen)
 
     # Run until the user asks to quit
     # Basic game loop
