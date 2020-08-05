@@ -246,6 +246,20 @@ This screen will say .... "Game Over" :roll_eyes: and show the players score. Ke
   - `level_02.py`
   - `level_03.py`
   - `splash.py`
+  
+  OR
+  
+
+  - `main.py`
+  - `gameover.txt`
+  - `menu.txt`
+  - `level_01.txt`
+  - `level_02.txt`
+  - `level_03.txt`
+  - `splash.txt`
+  
+  Just organize your code!
+  
 - You might have a `main.py` file the runs it all. 
 - There should be a resources folder with 
   - a graphics folder
